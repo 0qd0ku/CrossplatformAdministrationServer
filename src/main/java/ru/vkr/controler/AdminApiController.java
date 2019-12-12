@@ -7,15 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.vkr.model.AuthorizationDataDto;
-import ru.vkr.model.SessionDataDto;
+import ru.vkr.model.AuthorizationData;
+import ru.vkr.model.SessionData;
 import ru.vkr.service.AuthorizationService;
 
 @Controller
 @RequestMapping("/api/admin")
 public class AdminApiController {
 
-    Logger logger = LoggerFactory.getLogger(AdminApiController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminApiController.class);
 
     private final AuthorizationService authorizationService;
 
@@ -25,9 +25,9 @@ public class AdminApiController {
     }
 
     @PostMapping("/auth")
-    public SessionDataDto adminAuthorization(@RequestBody AuthorizationDataDto authData) {
+    public SessionData adminAuthorization(@RequestBody AuthorizationData authData) {
         logger.debug("Received request: {}", authData);
-        SessionDataDto sessionDataDto = authorizationService.process(authData);
+        SessionData sessionDataDto = authorizationService.process(authData);
         logger.debug("Handle response: {}", sessionDataDto);
         return sessionDataDto;
     }

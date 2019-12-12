@@ -1,6 +1,6 @@
 package ru.vkr.model;
 
-public class SessionDataDto {
+public class SessionData {
     public enum SessionType {
         ADMIN(1, "admin"), CLIENT(2, "client");
 

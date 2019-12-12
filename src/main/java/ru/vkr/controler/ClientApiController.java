@@ -1,19 +1,25 @@
 package ru.vkr.controler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import ru.vkr.model.ClientData;
+import ru.vkr.service.ClientsTaskService;
 
 @Controller
 @RequestMapping("/api/client")
 public class ClientApiController {
 
+    private final ClientsTaskService clientsTaskService;
+
+    @Autowired
+    public ClientApiController(ClientsTaskService clientsTaskService) {
+        this.clientsTaskService = clientsTaskService;
+    }
+
     @PostMapping(path = "/checkin")
-    @ResponseBody
-    public String clientCheckin() {
-        return null;
+    public String clientCheckin(@RequestBody ClientData clientData) {
+        return clientsTaskService.process();
     }
 
     @GetMapping("/tasks")
