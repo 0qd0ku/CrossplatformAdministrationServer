@@ -3,6 +3,8 @@ package ru.vkr.controler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.vkr.model.ClientData;
+import ru.vkr.service.ClientsTaskService;
 
 @Controller
 @RequestMapping("/api/client")
@@ -17,7 +19,7 @@ public class ClientApiController {
     @CrossOrigin
     @PostMapping(path = "/checkin")
     public String clientCheckin(@RequestBody ClientData clientData) {
-        return clientsTaskService.process();
+        return null;//clientsTaskService.process(null);
     }
 
     @CrossOrigin

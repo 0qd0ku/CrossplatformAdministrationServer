@@ -11,7 +11,6 @@ import ru.vkr.service.AuthorizationService;
 
 @Controller
 @RequestMapping("/api/admin")
-@CrossOrigin
 public class AdminApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminApiController.class);
@@ -23,7 +22,7 @@ public class AdminApiController {
         this.authorizationService = authorizationService;
     }
 
-    @CrossOrigin
+//    @CrossOrigin(origins = "https://127.0.0.1:8443")
     @PostMapping("/auth")
     public SessionData adminAuthorization(@RequestBody AuthorizationData authData) {
         logger.debug("Received request: {}", authData);
