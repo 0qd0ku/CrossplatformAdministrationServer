@@ -1,14 +1,32 @@
 package ru.vkr.model;
 
+import java.util.List;
+import java.util.Objects;
+
 /**
  * Класс запрос клиент содержит информацию о клиенте
  */
 public class ClientData {
+    private Long id;
     private String token;
+    private String hostname;
     private String os;
-    private String arch;
-    private String hostName;
-    private String mac;
+    private String osType;
+    private String macAddr;
+    private List<TaskDataDto> taskList;
+
+    public ClientData(Long id, String token, String hostname, String os, String osType, String macAddr) {
+        this.id = id;
+        this.token = token;
+        this.hostname = hostname;
+        this.os = os;
+        this.osType = osType;
+        this.macAddr = macAddr;
+    }
+
+    public void setTaskList(TaskDataDto[] taskList) {
+        this.taskList = taskList;
+    }
 
     public String getToken() {
         return token;
@@ -16,6 +34,18 @@ public class ClientData {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
     public String getOs() {
@@ -26,38 +56,41 @@ public class ClientData {
         this.os = os;
     }
 
-    public String getArch() {
-        return arch;
+    public String getOsType() {
+        return osType;
     }
 
-    public void setArch(String arch) {
-        this.arch = arch;
+    public void setOsType(String osType) {
+        this.osType = osType;
     }
 
-    public String getHostName() {
-        return hostName;
+    public String getMacAddr() {
+        return macAddr;
     }
 
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
+    public void setMacAddr(String macAddr) {
+        this.macAddr = macAddr;
     }
 
-    public String getMac() {
-        return mac;
-    }
-
-    public void setMac(String mac) {
-        this.mac = mac;
+    public TaskDataDto[] getTaskList() {
+        return taskList;
     }
 
     @Override
-    public String toString() {
-        return "ClientData{" +
-                "token='" + token + '\'' +
-                ", os='" + os + '\'' +
-                ", arch='" + arch + '\'' +
-                ", hostName='" + hostName + '\'' +
-                ", mac='" + mac + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClientData)) return false;
+        ClientData that = (ClientData) o;
+        return getToken().equals(that.getToken()) &&
+                getId().equals(that.getId()) &&
+                getHostname().equals(that.getHostname()) &&
+                getOs() == that.getOs() &&
+                getOsType() == that.getOsType() &&
+                getMacAddr().equals(that.getMacAddr());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getToken(), getId(), getHostname(), getOs(), getOsType(), getMacAddr());
     }
 }
