@@ -14,19 +14,19 @@ public class ClientApiController {
         this.clientsTaskService = clientsTaskService;
     }
 
-    @CrossOrigin(origins = "https://localhost:8443")
+    @CrossOrigin
     @PostMapping(path = "/checkin")
     public String clientCheckin(@RequestBody ClientData clientData) {
         return clientsTaskService.process();
     }
 
-    @CrossOrigin(origins = "https://localhost:8443")
+    @CrossOrigin
     @GetMapping("/tasks")
     public String getClientTaskList() {
         return null;
     }
 
-    @CrossOrigin(origins = "https://localhost:8443")
+    @CrossOrigin
     @PostMapping("/task/status")
     public String toggleTaskStatus() {
         return null;
