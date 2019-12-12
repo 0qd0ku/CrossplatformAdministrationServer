@@ -25,7 +25,7 @@ public class AdminApiController {
         this.authorizationService = authorizationService;
     }
 
-    @CrossOrigin(origins = "http://localhost:8443")
+    @CrossOrigin(origins = "https://localhost:8443")
     @PostMapping("/auth")
     public SessionDataDto adminAuthorization(@RequestBody AuthorizationDataDto authData) {
         logger.debug("Received request: {}", authData);
