@@ -26,10 +26,7 @@ function deleteCookie(cookies) {
 
 var validationCookieData = function () {
     var session = {
-        "sessionId": getCookie("sessionId"),
-        "userName": getCookie("userName"),
-        "tokenStr": getCookie("token"),
-        "dateAuth": getCookie("dateAuth")
+        "token": getCookie("token")
     };
     $.ajax({
         type: 'POST',
