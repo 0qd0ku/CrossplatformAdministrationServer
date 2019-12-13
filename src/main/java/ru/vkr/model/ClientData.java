@@ -24,7 +24,7 @@ public class ClientData {
         this.macAddr = macAddr;
     }
 
-    public void setTaskList(TaskDataDto[] taskList) {
+    public void setTaskList(List<TaskDataDto> taskList) {
         this.taskList = taskList;
     }
 
@@ -72,7 +72,7 @@ public class ClientData {
         this.macAddr = macAddr;
     }
 
-    public TaskDataDto[] getTaskList() {
+    public List<TaskDataDto> getTaskList() {
         return taskList;
     }
 

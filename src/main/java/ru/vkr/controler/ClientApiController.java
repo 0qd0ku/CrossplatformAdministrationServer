@@ -16,19 +16,18 @@ public class ClientApiController {
         this.clientsTaskService = clientsTaskService;
     }
 
-    @CrossOrigin
     @PostMapping(path = "/checkin")
+    @ResponseBody
     public String clientCheckin(@RequestBody ClientData clientData) {
         return null;//clientsTaskService.process(null);
     }
 
-    @CrossOrigin
     @GetMapping("/tasks")
+    @ResponseBody
     public String getClientTaskList() {
         return null;
     }
 
-    @CrossOrigin
     @PostMapping("/task/status")
     public String toggleTaskStatus() {
         return null;

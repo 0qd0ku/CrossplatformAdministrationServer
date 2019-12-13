@@ -21,20 +21,18 @@ public class ClientDao extends AbstractDao{
     private static final RowMapper<TaskDataDto> taskDataDtoRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskDataDto.class);
 
+    private static String ADD_CLIENT_QUERY = "insert into clients(token, hostname, os, osType, macAddr) " +
+            "values (:token, :hostName, :os, :osType, :macAddr)";
 
-    public ClientDao(JdbcTemplate jdbcTemplate) {
-        parameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
-    }
+
     public int addClient(ClientData client) {
-        return jdbcTemplate.update(
-                "insert into clients(id, token, hostname, os, osType, macAddr) values (?,?,?,?,?,?)",
-                client.getId(),
-                client.getToken(),
-                client.getHostname(),
-                client.getOs(),
-                client.getOsType(),
-                client.getMacAddr()
-                );
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
+                .addValue("token", client.getToken())
+                .addValue("hostName", client.getHostname())
+                .addValue("os", client.getOs())
+                .addValue("osType", client.getOsType())
+                .addValue("macAddr", client.getMacAddr());
+        return parameterJdbcTemplate.update(ADD_CLIENT_QUERY, mapSource);
     }
 
     public ClientData getClient(String hostname) {
@@ -72,6 +70,7 @@ public class ClientDao extends AbstractDao{
                 "ON  c.taskId = t.id " +
                 "WHERE c.clientId = :clId";
         parameterJdbcTemplate.query(sql, taskDataDtoRowMapper);
+    return null;
     }
 
     public int deleteById(Long id) {
