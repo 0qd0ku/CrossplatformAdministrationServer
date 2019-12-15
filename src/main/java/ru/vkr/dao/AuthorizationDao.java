@@ -26,7 +26,7 @@ public class AuthorizationDao extends AbstractDao {
      */
     public List<String> authorization(AdminAuthorizationData adminAuthorizationData) {
         logger.debug("Start find client: {}", adminAuthorizationData);
-        MapSqlParameterSource mapSource = new MapSqlParameterSource()
+        mapSource = new MapSqlParameterSource()
                 .addValue("login", adminAuthorizationData.getLogin())
                 .addValue("password", adminAuthorizationData.getPassword());
         return parameterJdbcTemplate.query(ADMIN_AUTH_QUERY, mapSource, ADMIN_LOGIN_COUNT);

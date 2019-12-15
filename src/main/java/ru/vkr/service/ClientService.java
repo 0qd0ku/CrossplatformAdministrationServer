@@ -6,6 +6,8 @@ import ru.vkr.dao.ClientDao;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.TaskData;
+import ru.vkr.model.enums.OS;
+import ru.vkr.model.enums.OSType;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ClientService {
         this.clientDao = clientDao;
     }
 
-    public ClientData addClient(String token, String hostname, String os, String osType, String macAddr)
+    public ClientData addClient(String token, String hostname, OS os, OSType osType, String macAddr)
     {
         clientDao.addClient(new ClientData(token, hostname, os, osType, macAddr));
         return clientDao.getClient(hostname);

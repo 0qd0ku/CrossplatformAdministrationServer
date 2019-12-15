@@ -1,8 +1,9 @@
 package ru.vkr.model;
 
-import java.util.HashMap;
+import ru.vkr.model.enums.OS;
+import ru.vkr.model.enums.OSType;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -12,12 +13,12 @@ public class ClientData {
     private Long id;
     private String token;
     private String hostname;
-    private String os;
-    private String osType;
+    private OS os;
+    private OSType osType;
     private String macAddr;
     private List<TaskData> taskList;
 
-    public ClientData(String token, String hostname, String os, String osType, String macAddr) {
+    public ClientData(String token, String hostname, OS os, OSType osType, String macAddr) {
         this.id = id;
         this.token = token;
         this.hostname = hostname;
@@ -50,19 +51,19 @@ public class ClientData {
         this.hostname = hostname;
     }
 
-    public String getOs() {
+    public OS getOs() {
         return os;
     }
 
-    public void setOs(String os) {
+    public void setOs(OS os) {
         this.os = os;
     }
 
-    public String getOsType() {
+    public OSType getOsType() {
         return osType;
     }
 
-    public void setOsType(String osType) {
+    public void setOsType(OSType osType) {
         this.osType = osType;
     }
 

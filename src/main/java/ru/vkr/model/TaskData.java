@@ -1,5 +1,8 @@
 package ru.vkr.model;
 
+import ru.vkr.model.enums.OS;
+import ru.vkr.model.enums.OSType;
+
 import java.util.Objects;
 
 public class TaskData {
@@ -7,19 +10,19 @@ public class TaskData {
     private String name;
     private String taskType;
     private String version;
-    private String os;
-    private String osType;
-    private String pathRunFile;
+    private OS os;
+    private OSType osType;
+    private String pathToRunFile;
     private String torrentFile;
 
-    public TaskData(Long id, String name, String taskType, String version, String os, String osType, String pathRunFile, String torrentFile) {
+    public TaskData(Long id, String name, String taskType, String version, OS os, OSType osType, String pathToRunFile, String torrentFile) {
         this.id = id;
         this.name = name;
         this.taskType = taskType;
         this.version = version;
         this.os = os;
         this.osType = osType;
-        this.pathRunFile = pathRunFile;
+        this.pathToRunFile = pathToRunFile;
         this.torrentFile = torrentFile;
     }
 
@@ -55,28 +58,28 @@ public class TaskData {
         this.version = version;
     }
 
-    public String getOs() {
+    public OS getOs() {
         return os;
     }
 
-    public void setOs(String os) {
+    public void setOs(OS os) {
         this.os = os;
     }
 
-    public String getOsType() {
+    public OSType getOsType() {
         return osType;
     }
 
-    public void setOsType(String osType) {
+    public void setOsType(OSType osType) {
         this.osType = osType;
     }
 
-    public String getPathRunFile() {
-        return pathRunFile;
+    public String getPathToRunFile() {
+        return pathToRunFile;
     }
 
-    public void setPathRunFile(String pathRunFile) {
-        this.pathRunFile = pathRunFile;
+    public void setPathToRunFile(String pathToRunFile) {
+        this.pathToRunFile = pathToRunFile;
     }
 
     public String getTorrentFile() {
@@ -98,13 +101,13 @@ public class TaskData {
                 getVersion().equals(that.getVersion()) &&
                 getOs() == that.getOs() &&
                 getOsType() == that.getOsType() &&
-                getPathRunFile().equals(that.getPathRunFile()) &&
+                getPathToRunFile().equals(that.getPathToRunFile()) &&
                 getTorrentFile().equals(that.getTorrentFile());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, getName(), getTaskType(), getVersion(), getOs(), getOsType(), getPathRunFile(), getTorrentFile());
+        return Objects.hash(id, getName(), getTaskType(), getVersion(), getOs(), getOsType(), getPathToRunFile(), getTorrentFile());
     }
 
     @Override
@@ -116,7 +119,7 @@ public class TaskData {
                 ", version='" + version + '\'' +
                 ", os=" + os +
                 ", osType=" + osType +
-                ", pathRunFile='" + pathRunFile + '\'' +
+                ", pathRunFile='" + pathToRunFile + '\'' +
                 ", torrentFile=" + torrentFile +
                 '}';
     }

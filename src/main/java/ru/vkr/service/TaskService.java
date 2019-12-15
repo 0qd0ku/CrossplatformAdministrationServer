@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.TaskData;
+import ru.vkr.model.enums.TaskStatus;
 
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class TaskService {
         return taskDao.getAllTasks();
     }
 
+    public void updateStatus(Long clientId, Long taskId, TaskStatus status) {
+        taskDao.updateStatus(clientId, taskId, status);
+    }
+
     public void deleteById(Long id) {
         taskDao.deleteById(id);
     }
@@ -58,3 +63,4 @@ public class TaskService {
         return taskDao.getClientsForTask(id);
     }
 }
+
