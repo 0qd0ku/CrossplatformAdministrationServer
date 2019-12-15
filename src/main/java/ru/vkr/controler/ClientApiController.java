@@ -4,22 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.vkr.model.ClientData;
-import ru.vkr.service.ClientsTaskService;
+import ru.vkr.model.SessionData;
+import ru.vkr.service.auth.ClientAuthorizationAuthService;
 
 @Controller
 @RequestMapping("/api/client")
 public class ClientApiController {
-    private final ClientsTaskService clientsTaskService;
-
+    private final ClientAuthorizationAuthService clientAuthorizationAuthService;
     @Autowired
-    public ClientApiController(ClientsTaskService clientsTaskService) {
-        this.clientsTaskService = clientsTaskService;
+    public ClientApiController(ClientAuthorizationAuthService clientAuthorizationAuthService) {
+        this.clientAuthorizationAuthService = clientAuthorizationAuthService;
     }
 
     @PostMapping(path = "/checkin")
     @ResponseBody
-    public String clientCheckin(@RequestBody ClientData clientData) {
-        return null;//clientsTaskService.process(null);
+    public SessionData clientCheckin(@RequestBody ClientData clientData) {
+        SessionData sessionDataDto = clientAuthorizationAuthService.process(clientData);
+        return sessionDataDto;
     }
 
     @GetMapping("/tasks")

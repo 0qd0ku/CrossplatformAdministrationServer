@@ -1,6 +1,6 @@
 package ru.vkr.model;
 
-public class AuthorizationData {
+public class AdminAuthorizationData {
 
     private String login;
     private String password;

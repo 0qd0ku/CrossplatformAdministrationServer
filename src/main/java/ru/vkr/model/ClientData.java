@@ -1,6 +1,8 @@
 package ru.vkr.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -15,7 +17,9 @@ public class ClientData {
     private String macAddr;
     private List<TaskDataDto> taskList;
 
-    public ClientData(Long id, String token, String hostname, String os, String osType, String macAddr) {
+    public static Map<String, ClientData> connectedClients = new HashMap<>();
+
+    public ClientData(String token, String hostname, String os, String osType, String macAddr) {
         this.id = id;
         this.token = token;
         this.hostname = hostname;

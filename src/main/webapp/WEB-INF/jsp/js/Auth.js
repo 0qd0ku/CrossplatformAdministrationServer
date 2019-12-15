@@ -5,7 +5,7 @@
             };
                 $.ajax({
                     type: "POST",
-                    url: "https://localhost:8443/api/admin/auth",
+                    url: "https://127.0.0.1:8443/api/admin/auth",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(authJsonObject),
                     dataType: 'json',
