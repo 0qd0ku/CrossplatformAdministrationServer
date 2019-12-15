@@ -19,8 +19,7 @@ public class ClientApiController {
     @PostMapping(path = "/checkin")
     @ResponseBody
     public SessionData clientCheckin(@RequestBody ClientData clientData) {
-        SessionData sessionDataDto = clientAuthorizationService.process(clientData);
-        return sessionDataDto;
+        return clientAuthorizationService.process(clientData);
     }
 
     @GetMapping("/tasks")
