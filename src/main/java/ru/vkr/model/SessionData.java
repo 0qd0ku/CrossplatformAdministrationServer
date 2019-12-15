@@ -20,6 +20,16 @@ public class SessionData {
             return description;
         }
 
+        public static SessionType getTypeByCode(int code) {
+            for (SessionType type : SessionType.values()) {
+                if (type.code == code) {
+                    return type;
+                }
+            }
+            throw new IllegalArgumentException("Not found session type by code: " + code);
+        }
+
+
         @Override
         public String toString() {
             return "SessionType{" +

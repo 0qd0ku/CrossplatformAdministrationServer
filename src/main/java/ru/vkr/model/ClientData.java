@@ -17,8 +17,6 @@ public class ClientData {
     private String macAddr;
     private List<TaskData> taskList;
 
-    public static Map<String, ClientData> connectedClients = new HashMap<>();
-
     public ClientData(String token, String hostname, String os, String osType, String macAddr) {
         this.id = id;
         this.token = token;

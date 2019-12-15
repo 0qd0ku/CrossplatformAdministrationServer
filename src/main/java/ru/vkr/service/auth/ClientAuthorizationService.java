@@ -8,6 +8,8 @@ import ru.vkr.model.ClientData;
 import ru.vkr.model.SessionData;
 import ru.vkr.service.ClientService;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -18,6 +20,7 @@ public class ClientAuthorizationService extends AbstractAuthService<SessionData,
     public ClientAuthorizationService() {
         super(null);
     }
+
 
     /*
      * Метод
@@ -36,8 +39,9 @@ public class ClientAuthorizationService extends AbstractAuthService<SessionData,
             client.setToken(sessionData.getToken());
             cs.updateClient(client);
         }
+        Map<String, ClientData> connectedClients = new HashMap<>();
         sessionData.setSessionType(SessionData.SessionType.CLIENT);
-        ClientData.connectedClients.put(sessionData.getToken(), client);
+        connectedClients.put(sessionData.getToken(), client);
         return sessionData;
     }
 }

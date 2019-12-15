@@ -1,6 +1,7 @@
 package ru.vkr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.TaskData;
@@ -11,7 +12,7 @@ import java.util.List;
  * Сервис для работы с задачами
  * TODO обработать исключения
  * */
-
+@Service
 public class TaskService {
     private TaskDao taskDao;
 
@@ -38,5 +39,22 @@ public class TaskService {
 
     public void updateTask(TaskData task) {
         taskDao.updateTask(task);
+    }
+
+
+    public List<TaskData> getTasksForClient(Long id) {
+        return taskDao.getTasksForClient(id);
+    }
+
+    public TaskData addTaskForClient(Long idClient, Long idTask) {
+        taskDao.addTaskForClient(idClient, idTask);
+        return new TaskDao().getTask(idTask);
+    }
+    public void deleteTaskForClient(Long idClient, Long idTask) {
+        taskDao.deleteTaskForClient(idClient, idTask);
+    }
+
+    private List<ClientData> getClientsForTask(Long id) {
+        return taskDao.getClientsForTask(id);
     }
 }
