@@ -99,15 +99,15 @@ public class TaskData {
                 getName().equals(that.getName()) &&
                 getTaskType() == that.getTaskType() &&
                 getVersion().equals(that.getVersion()) &&
-                getOs() == that.getOs() &&
-                getOsType() == that.getOsType() &&
+                getOs().getValue() == that.getOs().getValue() &&
+                getOsType().getValue() == that.getOsType().getValue() &&
                 getPathToRunFile().equals(that.getPathToRunFile()) &&
                 getTorrentFile().equals(that.getTorrentFile());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, getName(), getTaskType(), getVersion(), getOs(), getOsType(), getPathToRunFile(), getTorrentFile());
+        return Objects.hash(id, getName(), getTaskType(), getVersion(), getOs().getValue(), getOsType().getValue(), getPathToRunFile(), getTorrentFile());
     }
 
     @Override
@@ -117,9 +117,9 @@ public class TaskData {
                 ", name='" + name + '\'' +
                 ", taskType=" + taskType +
                 ", version='" + version + '\'' +
-                ", os=" + os +
-                ", osType=" + osType +
-                ", pathRunFile='" + pathToRunFile + '\'' +
+                ", os=" + os.getValue() +
+                ", osType=" + osType.getValue() +
+                ", pathToRunFile='" + pathToRunFile + '\'' +
                 ", torrentFile=" + torrentFile +
                 '}';
     }
