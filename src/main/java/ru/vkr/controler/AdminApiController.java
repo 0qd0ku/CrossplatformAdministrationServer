@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.vkr.dao.TaskDao;
-import ru.vkr.model.AdminAuthorizationData;
-import ru.vkr.model.ClientData;
-import ru.vkr.model.SessionData;
-import ru.vkr.model.TaskData;
+import ru.vkr.model.*;
+import ru.vkr.service.ClientService;
 import ru.vkr.service.TaskService;
 import ru.vkr.service.auth.AdminAuthorizationService;
 
@@ -28,10 +26,16 @@ public class AdminApiController {
     private static final Logger logger = LoggerFactory.getLogger(AdminApiController.class);
 
     private final AdminAuthorizationService adminAuthorizationService;
+    private final ClientService clientService;
+    private final TaskService taskService;
 
     @Autowired
-    public AdminApiController(AdminAuthorizationService adminAuthorizationService) {
+    public AdminApiController(AdminAuthorizationService adminAuthorizationService,
+                              ClientService clientService,
+                              TaskService taskService) {
         this.adminAuthorizationService = adminAuthorizationService;
+        this.clientService = clientService;
+        this.taskService = taskService;
     }
 
     @PostMapping("/auth")
@@ -67,17 +71,40 @@ public class AdminApiController {
     }
 
     /* Метод должен формировать список подключенных клиентов */
-    public String adminClients() { return null; }
+    @GetMapping("/clients")
+    @ResponseBody
+    public ClientPackDto adminClients() {
+        return new ClientPackDto(clientService.getAllClients());
+    }
     /* Метод должен формировать список задач */
-    public String adminTasks() { return null; }
+    @GetMapping("/tasks")
+    @ResponseBody
+    public TaskPackDto adminTasks() {
+        return new TaskPackDto(taskService.getAllTasks());
+    }
+
     /* Метод создания новой задачи */
-    public void adminAddTask() { return; }
+    @PostMapping("/add-task")
+    public void adminAddTask(@RequestBody TaskData taskData) {
+        taskService.addTask(taskData);
+    }
+
     /* Метод удаления задачи */
-    public void adminDeleteTask() { return;}
+    @DeleteMapping("/delete-task")
+    public void adminDeleteTask(@RequestParam("id") Long id) {
+        taskService.deleteById(id);
+    }
+
     /* Метод обновления задачи */
     public void adminEditTask() { return; }
     /* Метод назначения задачи на клиента */
-    public void adminAssignTask() { return; }
+
+    @GetMapping("/assign")
+    public void adminAssignTask(@RequestParam(name = "id", required = true) Long clientID,
+                                @RequestParam(name = "taskId", required = true) Long taskID) {
+        taskService.addTaskForClient(clientID, taskID);
+    }
+
     /* Метод отмены назначенной на клиента задачи */
     public void adminAssignTaskCancel() { return; }
 }
