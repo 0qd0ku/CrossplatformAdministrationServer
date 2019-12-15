@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.vkr.model.AdminAuthorizationData;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.SessionData;
-import ru.vkr.model.TaskDataDto;
-import ru.vkr.service.auth.AdminAuthorizationAuthService;
+import ru.vkr.model.TaskData;
+import ru.vkr.service.auth.AdminAuthorizationService;
 
 import java.util.List;
 
@@ -22,10 +22,10 @@ public class AdminApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminApiController.class);
 
-    private final AdminAuthorizationAuthService adminAuthorizationService;
+    private final AdminAuthorizationService adminAuthorizationService;
 
     @Autowired
-    public AdminApiController(AdminAuthorizationAuthService adminAuthorizationService) {
+    public AdminApiController(AdminAuthorizationService adminAuthorizationService) {
         this.adminAuthorizationService = adminAuthorizationService;
     }
 
@@ -45,9 +45,9 @@ public class AdminApiController {
     }
 
     /* Метод должен формировать список подключенных клиентов */
-    public List<ClientData> adminClients() { return null; }
+    public String adminClients() { return null; }
     /* Метод должен формировать список задач */
-    public List<TaskDataDto> adminTasks() { return null; }
+    public String adminTasks() { return null; }
     /* Метод создания новой задачи */
     public void adminAddTask() { return; }
     /* Метод удаления задачи */

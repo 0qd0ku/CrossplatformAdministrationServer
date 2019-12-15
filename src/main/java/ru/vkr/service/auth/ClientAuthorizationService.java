@@ -11,11 +11,11 @@ import ru.vkr.service.ClientService;
 import java.util.Objects;
 
 @Service
-public class ClientAuthorizationAuthService extends AbstractAuthService<SessionData, ClientData> {
+public class ClientAuthorizationService extends AbstractAuthService<SessionData, ClientData> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClientAuthorizationAuthService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientAuthorizationService.class);
 
-    public ClientAuthorizationAuthService() {
+    public ClientAuthorizationService() {
         super(null);
     }
 

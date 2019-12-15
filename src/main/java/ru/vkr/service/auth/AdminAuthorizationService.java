@@ -11,11 +11,11 @@ import ru.vkr.model.AdminAuthorizationData;
 import java.util.List;
 
 @Service
-public class AdminAuthorizationAuthService extends AbstractAuthService<SessionData, AdminAuthorizationData> {
+public class AdminAuthorizationService extends AbstractAuthService<SessionData, AdminAuthorizationData> {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminAuthorizationAuthService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminAuthorizationService.class);
 
-    public AdminAuthorizationAuthService(AuthorizationDao authorizationDao) {
+    public AdminAuthorizationService(AuthorizationDao authorizationDao) {
         super(authorizationDao);
     }
 

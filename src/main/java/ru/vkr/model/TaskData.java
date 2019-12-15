@@ -2,7 +2,7 @@ package ru.vkr.model;
 
 import java.util.Objects;
 
-public class TaskDataDto {
+public class TaskData {
     private Long id;
     private String name;
     private String taskType;
@@ -12,7 +12,7 @@ public class TaskDataDto {
     private String pathRunFile;
     private String torrentFile;
 
-    public TaskDataDto(Long id, String name, String taskType, String version, String os, String osType, String pathRunFile, String torrentFile) {
+    public TaskData(Long id, String name, String taskType, String version, String os, String osType, String pathRunFile, String torrentFile) {
         this.id = id;
         this.name = name;
         this.taskType = taskType;
@@ -90,8 +90,8 @@ public class TaskDataDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TaskDataDto)) return false;
-        TaskDataDto that = (TaskDataDto) o;
+        if (!(o instanceof TaskData)) return false;
+        TaskData that = (TaskData) o;
         return id.equals(that.id) &&
                 getName().equals(that.getName()) &&
                 getTaskType() == that.getTaskType() &&

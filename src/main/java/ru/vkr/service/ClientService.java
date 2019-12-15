@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.vkr.dao.ClientDao;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.TaskDataDto;
+import ru.vkr.model.TaskData;
 
 import java.util.List;
 
@@ -40,15 +40,6 @@ public class ClientService {
     public List<ClientData> getAllClients()
     {
         return clientDao.getAllClients();
-    }
-
-    public List<TaskDataDto> getTasksForClient(Long id) {
-        return clientDao.getTasksForClient(id);
-    }
-
-    public TaskDataDto addTaskForClient(Long idClient, Long idTask) {
-        clientDao.addTaskForClient(idClient, idTask);
-        return new TaskDao().getTask(idTask);
     }
 
     public void deleteById(Long id) {

@@ -15,7 +15,7 @@ public class ClientData {
     private String os;
     private String osType;
     private String macAddr;
-    private List<TaskDataDto> taskList;
+    private List<TaskData> taskList;
 
     public static Map<String, ClientData> connectedClients = new HashMap<>();
 
@@ -28,7 +28,7 @@ public class ClientData {
         this.macAddr = macAddr;
     }
 
-    public void setTaskList(List<TaskDataDto> taskList) {
+    public void setTaskList(List<TaskData> taskList) {
         this.taskList = taskList;
     }
 
@@ -76,7 +76,7 @@ public class ClientData {
         this.macAddr = macAddr;
     }
 
-    public List<TaskDataDto> getTaskList() {
+    public List<TaskData> getTaskList() {
         return taskList;
     }
 

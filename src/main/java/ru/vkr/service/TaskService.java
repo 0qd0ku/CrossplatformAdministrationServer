@@ -3,7 +3,7 @@ package ru.vkr.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.TaskDataDto;
+import ru.vkr.model.TaskData;
 
 import java.util.List;
 
@@ -20,19 +20,15 @@ public class TaskService {
         this.taskDao = taskDao;
     }
 
-    public void addTask(TaskDataDto task) {
+    public void addTask(TaskData task) {
         taskDao.addTask(task);
     }
 
-    public TaskDataDto getTask(Long id) {
+    public TaskData getTask(Long id) {
         return taskDao.getTask(id);
     }
 
-    private List<ClientData> getClientsForTask(Long id) {
-        return taskDao.getClientsForTask(id);
-    }
-
-    public List<TaskDataDto> getAllTasks() {
+    public List<TaskData> getAllTasks() {
         return taskDao.getAllTasks();
     }
 
@@ -40,7 +36,7 @@ public class TaskService {
         taskDao.deleteById(id);
     }
 
-    public void updateTask(TaskDataDto task) {
+    public void updateTask(TaskData task) {
         taskDao.updateTask(task);
     }
 }

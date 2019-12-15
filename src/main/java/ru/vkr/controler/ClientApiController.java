@@ -5,21 +5,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.SessionData;
-import ru.vkr.service.auth.ClientAuthorizationAuthService;
+import ru.vkr.service.auth.ClientAuthorizationService;
 
 @Controller
 @RequestMapping("/api/client")
 public class ClientApiController {
-    private final ClientAuthorizationAuthService clientAuthorizationAuthService;
+    private final ClientAuthorizationService clientAuthorizationService;
     @Autowired
-    public ClientApiController(ClientAuthorizationAuthService clientAuthorizationAuthService) {
-        this.clientAuthorizationAuthService = clientAuthorizationAuthService;
+    public ClientApiController(ClientAuthorizationService clientAuthorizationService) {
+        this.clientAuthorizationService = clientAuthorizationService;
     }
 
     @PostMapping(path = "/checkin")
     @ResponseBody
     public SessionData clientCheckin(@RequestBody ClientData clientData) {
-        SessionData sessionDataDto = clientAuthorizationAuthService.process(clientData);
+        SessionData sessionDataDto = clientAuthorizationService.process(clientData);
         return sessionDataDto;
     }
 

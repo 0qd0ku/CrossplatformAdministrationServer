@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.TaskDataDto;
+import ru.vkr.model.TaskData;
 
 import java.util.List;
 
@@ -18,18 +18,14 @@ public class TaskDao extends AbstractDao {
     private static final String DELETE_TASK_BY_ID = "delete tasks where id = :id";
     private static final String UPDATE_TASK = "update tasks set name = :name, taskType = :taskType, " +
             "version = :version, os = :os, osType = :osType, pathToRunFile = :pathToRunFile, torrentFile = :torrentFile where id = :id";
-    private static final String GET_CLIENTS_FOR_TASK = "SELECT c.* , t.status FROM clients c " +
-            "JOIN clientstasks t " +
-            "ON  t.clientId = c.id " +
-            "WHERE t.taskId = :id";
 
-    private static final RowMapper<TaskDataDto> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
-            ignorePropertyNotFound().newRowMapper(TaskDataDto.class);
+    private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
+            ignorePropertyNotFound().newRowMapper(TaskData.class);
     private static final RowMapper<ClientData> clientDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(ClientData.class);
 
 
-    public int addTask(TaskDataDto task) {
+    public int addTask(TaskData task) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("name", task.getName())
                 .addValue("taskType", task.getTaskType())
@@ -42,19 +38,14 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(ADD_TASK_QUERY, mapSource);
     }
 
-    public TaskDataDto getTask(Long id) {
+    public TaskData getTask(Long id) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_TASK_QUERY, mapSource, taskDataListRowMapper).get(0);
     }
 
-    public List<ClientData> getClientsForTask(Long id) {
-        MapSqlParameterSource mapSource = new MapSqlParameterSource()
-                .addValue("id", id);
-        return parameterJdbcTemplate.query(GET_CLIENTS_FOR_TASK, mapSource, clientDataListRowMapper);
-    }
 
-    public List<TaskDataDto> getAllTasks() {
+    public List<TaskData> getAllTasks() {
         return parameterJdbcTemplate.query(GET_ALL_TASKS, taskDataListRowMapper);
     }
 
@@ -64,7 +55,7 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(DELETE_TASK_BY_ID, mapSource);
     }
 
-    public int updateTask(TaskDataDto task) {
+    public int updateTask(TaskData task) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("name", task.getName())
                 .addValue("taskType", task.getTaskType())
