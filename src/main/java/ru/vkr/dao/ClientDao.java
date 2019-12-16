@@ -11,14 +11,15 @@ import java.util.List;
 @Repository
 public class ClientDao extends AbstractDao{
 
-    private static final String GET_CLIENT_QUERY = "select from clients where hostname = :hostname";
-    private static final String GET_ALL_CLIENTS_QUERY = "select * from clients";
-    private static final String ADD_CLIENT_QUERY = "insert into clients(token, hostname, os, osType, macAddr) " +
-            "values (:token, :hostName, :os, :osType, :macAddr)";
+    private static final String GET_CLIENT_QUERY = "SELECT FROM clients WHERE hostname = :hostname";
+    private static final String GET_ALL_CLIENTS_QUERY = "SELECT * FROM clients";
+    private static final String ADD_CLIENT_QUERY = "INSERT INTO clients(token, hostname, os, osType, macAddr) " +
+            "VALUES (:token, :hostName, :os, :osType, :macAddr)";
 
-    private static final String DELETE_CLIENT_BY_ID = "delete clients where id = :id";
-    private static final String UPDATE_CLIENT_BY_ID = "update clients set token = :token, hostname = :hostname, os = :os, osType = :osType, macAddr = :macAddr where id = :id";
-    private static final String DELETE_CLIENT_BY_HOSTNAME = "delete clients where hostname = ?";
+    private static final String DELETE_CLIENT_BY_ID = "DELETE clients WHERE id = :id";
+    private static final String UPDATE_CLIENT_BY_ID = "UPDATE clients SET token = :token, hostname = :hostname, os = :os, osType = :osType, macAddr = :macAddr " +
+            "WHERE id = :id";
+    private static final String DELETE_CLIENT_BY_HOSTNAME = "DELETE clients WHERE hostname = ?";
 
 
 

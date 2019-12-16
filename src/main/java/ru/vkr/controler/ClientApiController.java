@@ -5,15 +5,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.SessionData;
+import ru.vkr.model.TaskPackDto;
+import ru.vkr.service.TaskService;
 import ru.vkr.service.auth.ClientAuthorizationService;
 
 @Controller
 @RequestMapping("/api/client")
 public class ClientApiController {
     private final ClientAuthorizationService clientAuthorizationService;
+
+    private final TaskService taskService;
+
     @Autowired
-    public ClientApiController(ClientAuthorizationService clientAuthorizationService) {
+    public ClientApiController(ClientAuthorizationService clientAuthorizationService, TaskService taskService) {
         this.clientAuthorizationService = clientAuthorizationService;
+        this.taskService = taskService;
     }
 
     @PostMapping(path = "/checkin")
@@ -24,8 +30,8 @@ public class ClientApiController {
 
     @GetMapping("/tasks")
     @ResponseBody
-    public String getClientTaskList() {
-        return null;
+    public TaskPackDto getClientTaskList(@RequestParam(name = "clientID", required = true) Long id) {
+        return new TaskPackDto(taskService.getTasksForClient(id));
     }
 
     @PostMapping("/task/status")

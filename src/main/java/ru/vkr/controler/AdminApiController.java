@@ -63,8 +63,7 @@ public class AdminApiController {
     public ModelAndView adminTasksPage()
     {
         ModelAndView modelAndView = new ModelAndView("tasks");
-        List<TaskData> taskDataList = new TaskService(new TaskDao()).getAllTasks();
-
+        List<TaskData> taskDataList = taskService.getAllTasks();;
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         return modelAndView;
@@ -76,6 +75,7 @@ public class AdminApiController {
     public ClientPackDto adminClients() {
         return new ClientPackDto(clientService.getAllClients());
     }
+    
     /* Метод должен формировать список задач */
     @GetMapping("/tasks")
     @ResponseBody
@@ -96,9 +96,11 @@ public class AdminApiController {
     }
 
     /* Метод обновления задачи */
-    public void adminEditTask() { return; }
+    @PostMapping("/update-task")
+    public void adminEditTask(@RequestBody TaskData taskData) {
+        taskService.updateTask(taskData);
+    }
     /* Метод назначения задачи на клиента */
-
     @GetMapping("/assign")
     public void adminAssignTask(@RequestParam(name = "id", required = true) Long clientID,
                                 @RequestParam(name = "taskId", required = true) Long taskID) {
@@ -106,5 +108,8 @@ public class AdminApiController {
     }
 
     /* Метод отмены назначенной на клиента задачи */
-    public void adminAssignTaskCancel() { return; }
+    @DeleteMapping("/cancel-task")
+    public void adminAssignTaskCancel(@RequestBody ClientTaskActionDto clientTaskActionDto) {
+        taskService.deleteTaskForClient(clientTaskActionDto);
+    }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
+import ru.vkr.model.ClientTaskActionDto;
 import ru.vkr.model.TaskData;
 import ru.vkr.model.enums.TaskStatus;
 
@@ -55,8 +56,8 @@ public class TaskService {
         taskDao.addTaskForClient(idClient, idTask);
         return new TaskDao().getTask(idTask);
     }
-    public void deleteTaskForClient(Long idClient, Long idTask) {
-        taskDao.deleteTaskForClient(idClient, idTask);
+    public void deleteTaskForClient(ClientTaskActionDto clientTaskActionDto) {
+        taskDao.deleteTaskForClient(clientTaskActionDto);
     }
 
     private List<ClientData> getClientsForTask(Long id) {

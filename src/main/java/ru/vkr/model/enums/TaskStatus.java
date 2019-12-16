@@ -7,11 +7,18 @@ public enum TaskStatus {
     INSTALLING("Installing");
 
     private String status;
-    private TaskStatus(String status) {
+    TaskStatus(String status) {
         this.status = status;
     }
 
     public String getValue() {
         return status;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskStatus{" +
+                "status='" + status + '\'' +
+                '}';
     }
 }

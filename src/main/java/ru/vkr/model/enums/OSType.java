@@ -5,11 +5,18 @@ public enum OSType {
     X64("x64");
 
     private String osType;
-    private OSType(String osType) {
+    OSType(String osType) {
         this.osType = osType;
     }
 
     public String getValue() {
         return osType;
+    }
+
+    @Override
+    public String toString() {
+        return "OSType{" +
+                "osType='" + osType + '\'' +
+                '}';
     }
 }

@@ -39,13 +39,7 @@ public class ClientAuthorizationService extends AbstractAuthService<SessionData,
             client.setToken(sessionData.getToken());
             cs.updateClient(client);
         }
-        /*
-         * Не вижу смысла от этой коллекции в данном случае.
-         * При каждом подключении будет создаваться коллекция и в нее помещается 1 клиент.
-         */
-        //Map<String, ClientData> connectedClients = new HashMap<>();
         sessionData.setSessionType(SessionData.SessionType.CLIENT);
-        //connectedClients.put(sessionData.getToken(), client);
         return sessionData;
     }
 }

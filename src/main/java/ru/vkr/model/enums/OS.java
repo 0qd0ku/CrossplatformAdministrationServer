@@ -6,11 +6,18 @@ public enum OS {
     MACOS("MacOS");
 
     private String os;
-    private OS(String os) {
+    OS(String os) {
         this.os = os;
     }
 
     public String getValue() {
         return os;
+    }
+
+    @Override
+    public String toString() {
+        return "OS{" +
+                "os='" + os + '\'' +
+                '}';
     }
 }

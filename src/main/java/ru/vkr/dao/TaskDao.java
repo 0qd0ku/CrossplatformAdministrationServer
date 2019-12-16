@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.vkr.model.ClientData;
+import ru.vkr.model.ClientTaskActionDto;
 import ru.vkr.model.TaskData;
 import ru.vkr.model.enums.TaskStatus;
 
@@ -12,13 +13,13 @@ import java.util.List;
 
 @Repository
 public class TaskDao extends AbstractDao {
-    private static final String ADD_TASK_QUERY = "insert into tasks(name, taskType, version, os, osType, pathToRunFile, torrentFile)"+
-            " values (:name, :taskType, :version, :os, :osType, :pathToRunFile, :torrentFile)";
-    private static final String GET_TASK_QUERY = "select * from tasks where id = :id";
-    private static final String GET_ALL_TASKS = "select * from tasks";
-    private static final String DELETE_TASK_BY_ID = "delete tasks where id = :id";
-    private static final String UPDATE_TASK = "update tasks set name = :name, taskType = :taskType, " +
-            "version = :version, os = :os, osType = :osType, pathToRunFile = :pathToRunFile, torrentFile = :torrentFile where id = :id";
+    private static final String ADD_TASK_QUERY = "INSERT INTO tasks(name, taskType, version, os, osType, pathToRunFile, torrentFile)"+
+            " VALUES (:name, :taskType, :version, :os, :osType, :pathToRunFile, :torrentFile)";
+    private static final String GET_TASK_QUERY = "SELECT * FROM tasks WHERE id = :id";
+    private static final String GET_ALL_TASKS = "SELECT * FROM tasks";
+    private static final String DELETE_TASK_BY_ID = "DELETE tasks WHERE id = :id";
+    private static final String UPDATE_TASK = "UPDATE tasks SET name = :name, taskType = :taskType, " +
+            "version = :version, os = :os, osType = :osType, pathToRunFile = :pathToRunFile, torrentFile = :torrentFile WHERE id = :id";
     private static final String GET_TASKS_FOR_CLIENT = "SELECT t.* , c.status FROM tasks t " +
             "JOIN clienttasks c " +
             "ON  c.taskId = t.id " +
@@ -27,9 +28,9 @@ public class TaskDao extends AbstractDao {
             "JOIN clienttasks t " +
             "ON  t.clientId = c.id " +
             "WHERE t.taskId = :id";
-    private static final String ADD_TASK_TO_CLIENT_BY_ID = "insert into clienttasks(taskId, clientId) values (:taskId, :clientId)";
-    private static final String DELETE_TASK_TO_CLIENT_BY_ID = "delete clienttasks where taskId = :taskId AND clientId = :clientId";
-    private static final String UPDATE_TASK_STATUS = "update clienttasks set status = :status where taskId = :taskId AND clientId = :clientId";
+    private static final String ADD_TASK_TO_CLIENT_BY_ID = "INSERT INTO clienttasks(taskId, clientId) VALUES (:taskId, :clientId)";
+    private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE clienttasks WHERE taskId = :taskId AND clientId = :clientId";
+    private static final String UPDATE_TASK_STATUS = "UPDATE clienttasks SET status = :status WHERE taskId = :taskId AND clientId = :clientId";
 
 
     private static final RowMapper<ClientData> clientDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
@@ -96,10 +97,10 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(ADD_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 
-    public int deleteTaskForClient(Long idClient, Long idTask) {
+    public int deleteTaskForClient(ClientTaskActionDto clientTaskActionDto) {
         mapSource =  new MapSqlParameterSource()
-                .addValue("clientId", idClient)
-                .addValue("taskId", idTask);
+                .addValue("clientId", clientTaskActionDto.getClientId())
+                .addValue("taskId", clientTaskActionDto.getTaskId());
         return parameterJdbcTemplate.update(DELETE_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 

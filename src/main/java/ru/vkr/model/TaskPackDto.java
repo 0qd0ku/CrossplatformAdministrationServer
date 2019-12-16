@@ -2,6 +2,9 @@ package ru.vkr.model;
 
 import java.util.List;
 
+/**
+ * Объект оболочка для отправки списка задач наружу
+ */
 public class TaskPackDto {
 
     public TaskPackDto(List<TaskData> taskDatas) {
