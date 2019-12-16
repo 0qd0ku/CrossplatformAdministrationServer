@@ -5,7 +5,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.ClientTaskActionDto;
+import ru.vkr.model.ClientTaskStatusDto;
+import ru.vkr.model.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
 import ru.vkr.model.enums.TaskStatus;
 
@@ -97,10 +98,10 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(ADD_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 
-    public int deleteTaskForClient(ClientTaskActionDto clientTaskActionDto) {
+    public int deleteTaskForClient(SimpleClientTaskDataDto simpleClientTaskDataDto) {
         mapSource =  new MapSqlParameterSource()
-                .addValue("clientId", clientTaskActionDto.getClientId())
-                .addValue("taskId", clientTaskActionDto.getTaskId());
+                .addValue("clientId", simpleClientTaskDataDto.getClientId())
+                .addValue("taskId", simpleClientTaskDataDto.getTaskId());
         return parameterJdbcTemplate.update(DELETE_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 
@@ -110,11 +111,11 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.query(GET_CLIENTS_FOR_TASK, mapSource, clientDataListRowMapper);
     }
 
-    public void updateStatus(Long clientId, Long taskId, TaskStatus status) {
+    public void updateStatus(ClientTaskStatusDto clientTaskStatusDto) {
         mapSource = new MapSqlParameterSource()
-                .addValue("taskId", taskId)
-                .addValue("clientId", clientId)
-                .addValue("status", status);
+                .addValue("taskId", clientTaskStatusDto.getClientTaskData().getTaskId())
+                .addValue("clientId", clientTaskStatusDto.getClientTaskData().getClientId())
+                .addValue("status", clientTaskStatusDto.getTaskStatus().getValue());
         parameterJdbcTemplate.update(UPDATE_TASK_STATUS, mapSource);
     }
 }

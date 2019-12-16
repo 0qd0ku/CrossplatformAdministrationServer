@@ -1,6 +1,6 @@
 package ru.vkr.model;
 
-public class ClientTaskActionDto {
+public class SimpleClientTaskDataDto {
     private Long clientId;
     private Long taskId;
 

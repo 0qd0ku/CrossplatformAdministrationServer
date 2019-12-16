@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.vkr.dao.TaskDao;
 import ru.vkr.model.*;
 import ru.vkr.service.ClientService;
 import ru.vkr.service.TaskService;
 import ru.vkr.service.auth.AdminAuthorizationService;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -75,7 +73,7 @@ public class AdminApiController {
     public ClientPackDto adminClients() {
         return new ClientPackDto(clientService.getAllClients());
     }
-    
+
     /* Метод должен формировать список задач */
     @GetMapping("/tasks")
     @ResponseBody
@@ -109,7 +107,7 @@ public class AdminApiController {
 
     /* Метод отмены назначенной на клиента задачи */
     @DeleteMapping("/cancel-task")
-    public void adminAssignTaskCancel(@RequestBody ClientTaskActionDto clientTaskActionDto) {
-        taskService.deleteTaskForClient(clientTaskActionDto);
+    public void adminAssignTaskCancel(@RequestBody SimpleClientTaskDataDto simpleClientTaskDataDto) {
+        taskService.deleteTaskForClient(simpleClientTaskDataDto);
     }
 }
