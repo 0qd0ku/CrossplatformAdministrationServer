@@ -57,11 +57,11 @@ public class AdminApiController {
         return "main";
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/all-tasks")
     public ModelAndView adminTasksPage()
     {
         ModelAndView modelAndView = new ModelAndView("tasks");
-        List<TaskData> taskDataList = taskService.getAllTasks();;
+        List<TaskData> taskDataList = taskService.getAllTasks();
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         return modelAndView;

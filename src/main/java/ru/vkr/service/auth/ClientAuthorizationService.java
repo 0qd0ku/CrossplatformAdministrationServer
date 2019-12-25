@@ -7,6 +7,7 @@ import ru.vkr.dao.ClientDao;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.SessionData;
 import ru.vkr.service.ClientService;
+import ru.vkr.util.TokenGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class ClientAuthorizationService extends AbstractAuthService<SessionData,
         logger.debug("Start authorization by client: {}", authData);
         ClientData client = cs.getClient(authData.getHostname());
         SessionData sessionData = new SessionData();
-        sessionData.setToken(generateToken());
+        sessionData.setToken(TokenGenerator.generateToken());
         if (Objects.isNull(client)) {
             client = cs.addClient(sessionData.getToken(), authData.getHostname(), authData.getOs(), authData.getOsType(), authData.getMacAddr());
         } else {

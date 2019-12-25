@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.vkr.dao.AuthorizationDao;
 import ru.vkr.model.SessionData;
 import ru.vkr.model.AdminAuthorizationData;
+import ru.vkr.util.TokenGenerator;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class AdminAuthorizationService extends AbstractAuthService<SessionData, 
             throw new IllegalArgumentException("Login and pass is incorrect");
         }
         SessionData sessionData = new SessionData();
-        sessionData.setToken(generateToken());
+        sessionData.setToken(TokenGenerator.generateToken());
         sessionData.setSessionType(SessionData.SessionType.ADMIN);
         return sessionData;
     }

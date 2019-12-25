@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.vkr.model.ClientData;
-import ru.vkr.model.ClientTaskStatusDto;
-import ru.vkr.model.SessionData;
-import ru.vkr.model.TaskPackDto;
+import ru.vkr.model.*;
 import ru.vkr.service.TaskService;
 import ru.vkr.service.auth.ClientAuthorizationService;
 
@@ -37,11 +34,17 @@ public class ClientApiController {
 
     @GetMapping("/tasks")
     @ResponseBody
-    public TaskPackDto getClientTaskList(@RequestParam(name = "clientID", required = true) Long id) {
+    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long id) {
         logger.debug("Received request for get clients tasks");
         TaskPackDto taskPackDto = new TaskPackDto(taskService.getTasksForClient(id));
         logger.debug("Get response data: {}", taskPackDto);
         return taskPackDto;
+    }
+
+    @GetMapping("get-task")
+    @ResponseBody
+    public TaskData getTaskById(@RequestParam(name = "taskId", required = true) Long taskId) {
+        //TODO Добавить получение таски по ее id
     }
 
     @PostMapping("/task/status")
