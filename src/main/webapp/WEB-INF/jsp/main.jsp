@@ -10,7 +10,7 @@
             <table border="1" width="120px">
                 <tr align="center">
                     <td>
-                        <button name="tasks" onClick='location.href="tasks"'>Управление задачами</button>
+                        <button name="tasks" onClick='location.href="all-tasks"'>Управление задачами</button>
                         <button name="clients" onClick='location.href="clients"'>Управление клиентами</button>
                     </td>
                 </tr>

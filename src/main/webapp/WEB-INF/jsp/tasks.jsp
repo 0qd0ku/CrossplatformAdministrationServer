@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Управления задачами</title>
@@ -17,6 +19,8 @@
                     <td>Архитектура</td>
                     <td>Путь к исполняемому файлу</td>
                     <td>Base64 Torrent</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <c:forEach var="task" items="${tasklist}">
                     <tr>
@@ -33,8 +37,18 @@
                     </tr>
                 </c:forEach>
             </table>
+        <table>
+            <tr>
+                <td><button name="tasks" onClick='location.href="main"'>Назад</button></td>
+            </tr>
+        </table>
         </td>
     </tr>
+    <table align="center">
+    <tr>
+        <td><button name="tasks" onClick='location.href="main"'>Назад</button></td>
+    </tr>
+    </table>
 </table>
 </body>
 </html>

@@ -45,6 +45,7 @@ public class ClientApiController {
     @ResponseBody
     public TaskData getTaskById(@RequestParam(name = "taskId", required = true) Long taskId) {
         //TODO Добавить получение таски по ее id
+        return null;
     }
 
     @PostMapping("/task/status")
