@@ -18,7 +18,7 @@ public class TaskDao extends AbstractDao {
             " VALUES (:name, :taskType, :version, :os, :osType, :pathToRunFile, :torrentFile)";
     private static final String GET_TASK_QUERY = "SELECT * FROM tasks WHERE id = :id";
     private static final String GET_ALL_TASKS = "SELECT * FROM tasks";
-    private static final String DELETE_TASK_BY_ID = "DELETE tasks WHERE id = :id";
+    private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = :id";
     private static final String UPDATE_TASK = "UPDATE tasks SET name = :name, taskType = :taskType, " +
             "version = :version, os = :os, osType = :osType, pathToRunFile = :pathToRunFile, torrentFile = :torrentFile WHERE id = :id";
     private static final String GET_TASKS_FOR_CLIENT = "SELECT t.* , c.status FROM tasks t " +

@@ -32,7 +32,7 @@
                         <td>${task.osType.value}</td>
                         <td>${task.pathToRunFile}</td>
                         <td>${task.torrentFile}</td>
-                        <td><spring:form method="post" action="delete"><button name="id" value="${task.id}">Удалить</button></spring:form></td>
+                        <td><spring:form method="POST" action="delete-task"><button name="id" value="${task.id}">Удалить</button></spring:form></td>
                         <td><spring:form method="get"  action="edit"><button name="id" value="${task.id}">Изменить</button></spring:form></td>
                     </tr>
                 </c:forEach>
@@ -44,11 +44,6 @@
         </table>
         </td>
     </tr>
-    <table align="center">
-    <tr>
-        <td><button name="tasks" onClick='location.href="main"'>Назад</button></td>
-    </tr>
-    </table>
 </table>
 </body>
 </html>

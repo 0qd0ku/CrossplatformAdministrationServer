@@ -45,52 +45,49 @@ public class AdminApiController {
         return sessionDataDto;
     }
 
+    /* возвращает страницу авторизации*/
     @GetMapping("/login")
     public String adminLoginPage()
     {
         return "login";
     }
 
+    /* возвращает главную страницу */
     @GetMapping("/main")
     public String adminMainPage()
     {
         return "main";
     }
 
+    /* возвращает страницу со списком существующих задач */
     @GetMapping("/all-tasks")
     public ModelAndView adminTasksPage()
     {
-        ModelAndView modelAndView = new ModelAndView("tasks");
+        ModelAndView modelAndView = new ModelAndView("tasks/tasklist");
         List<TaskData> taskDataList = taskService.getAllTasks();
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         return modelAndView;
     }
 
-    /* Метод должен формировать список подключенных клиентов */
-    @GetMapping("/clients")
+    @PostMapping("delete-task")
+    public String adminDeleteTask(@RequestParam("id") Long id)
+    {
+        taskService.deleteById(id);
+        return "redirect:/api/admin/all-tasks";
+    }
+
+    /* Метод должен формировать список клиентов */
+    @GetMapping("/all-clients")
     @ResponseBody
     public ClientPackDto adminClients() {
         return new ClientPackDto(clientService.getAllClients());
-    }
-
-    /* Метод должен формировать список задач */
-    @GetMapping("/tasks")
-    @ResponseBody
-    public TaskPackDto adminTasks() {
-        return new TaskPackDto(taskService.getAllTasks());
     }
 
     /* Метод создания новой задачи */
     @PostMapping("/add-task")
     public void adminAddTask(@RequestBody TaskData taskData) {
         taskService.addTask(taskData);
-    }
-
-    /* Метод удаления задачи */
-    @DeleteMapping("/delete-task")
-    public void adminDeleteTask(@RequestParam("id") Long id) {
-        taskService.deleteById(id);
     }
 
     /* Метод обновления задачи */
