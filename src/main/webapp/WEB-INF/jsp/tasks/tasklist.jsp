@@ -9,7 +9,7 @@
 <table width="100%" height="100%">
     <tr>
         <td align="center">
-            <table border="1">
+            <table border="1" width="100%">
                 <tr>
                     <td>Идентификатор</td>
                     <td>Имя</td>
@@ -33,7 +33,7 @@
                         <td>${task.pathToRunFile}</td>
                         <td>${task.torrentFile}</td>
                         <td><spring:form method="POST" action="delete-task"><button name="id" value="${task.id}">Удалить</button></spring:form></td>
-                        <td><spring:form method="get"  action="edit"><button name="id" value="${task.id}">Изменить</button></spring:form></td>
+                        <td><spring:form method="GET"  action="edit-page"><button name="id" value="${task.id}">Изменить</button></spring:form></td>
                     </tr>
                 </c:forEach>
             </table>

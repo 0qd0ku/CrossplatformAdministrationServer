@@ -75,11 +75,12 @@ public class TaskDao extends AbstractDao {
 
     public int updateTask(TaskData task) {
         mapSource = new MapSqlParameterSource()
+                .addValue("id", task.getId())
                 .addValue("name", task.getName())
                 .addValue("taskType", task.getTaskType())
                 .addValue("version", task.getVersion())
-                .addValue("os", task.getOs().getValue())
-                .addValue("osType", task.getOsType().getValue())
+                .addValue("os", task.getOs().name())
+                .addValue("osType", task.getOsType().name())
                 .addValue("pathToRunFile", task.getPathToRunFile())
                 .addValue("torrentFile", task.getTorrentFile());
         return parameterJdbcTemplate.update(UPDATE_TASK, mapSource);

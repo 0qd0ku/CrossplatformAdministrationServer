@@ -77,6 +77,19 @@ public class AdminApiController {
         return "redirect:/api/admin/all-tasks";
     }
 
+    @GetMapping("edit-page")
+    public ModelAndView adminEditTaskPage(@RequestParam("id") Long id)
+    {
+        return new ModelAndView("tasks/taskedit", "task", taskService.getTask(id));
+    }
+
+    @PostMapping("edit-task")
+    @ResponseBody
+    public void adminEditTask(@RequestBody TaskData taskData)
+    {
+        taskService.updateTask(taskData);
+    }
+
     /* Метод должен формировать список клиентов */
     @GetMapping("/all-clients")
     @ResponseBody
@@ -90,11 +103,6 @@ public class AdminApiController {
         taskService.addTask(taskData);
     }
 
-    /* Метод обновления задачи */
-    @PostMapping("/update-task")
-    public void adminEditTask(@RequestBody TaskData taskData) {
-        taskService.updateTask(taskData);
-    }
     /* Метод назначения задачи на клиента */
     @GetMapping("/assign")
     public void adminAssignTask(@RequestParam(name = "id", required = true) Long clientID,
