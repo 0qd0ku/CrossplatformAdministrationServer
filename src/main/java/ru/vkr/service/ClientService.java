@@ -34,6 +34,10 @@ public class ClientService {
         return clientDao.getClient(hostname);
     }
 
+    public ClientData getClient(Long id) {
+        return clientDao.getClient(id);
+    }
+
     public ClientData updateClient(ClientData client) {
         clientDao.updateClient(client);
         return clientDao.getClient(client.getHostname());

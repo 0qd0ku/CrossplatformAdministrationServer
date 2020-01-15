@@ -13,8 +13,11 @@ import ru.vkr.service.ClientService;
 import ru.vkr.service.TaskService;
 import ru.vkr.service.auth.AdminAuthorizationService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/admin")
@@ -70,20 +73,43 @@ public class AdminApiController {
         return modelAndView;
     }
 
-    @PostMapping("delete-task")
+    @GetMapping("/task-clients")
+    public ModelAndView adminTaskClients(@RequestParam("taskId") Long id) {
+        ModelAndView modelAndView = new ModelAndView("tasks/taskclients");
+        List<ClientData> clientDataList = taskService.getClientsForTask(id);
+        if (!Objects.isNull(clientDataList))
+            modelAndView.addObject("clientlist", clientDataList);
+        modelAndView.addObject("taskId", id);
+        return modelAndView;
+    }
+
+    @PostMapping("/delete-task")
     public String adminDeleteTask(@RequestParam("id") Long id)
     {
         taskService.deleteById(id);
         return "redirect:/api/admin/all-tasks";
     }
 
-    @GetMapping("edit-page")
+    @GetMapping("/edit-task-page")
     public ModelAndView adminEditTaskPage(@RequestParam("id") Long id)
     {
         return new ModelAndView("tasks/taskedit", "task", taskService.getTask(id));
     }
 
-    @PostMapping("edit-task")
+    @GetMapping("/create-task-page")
+    public ModelAndView adminCreateTaskPage()
+    {
+        return new ModelAndView("tasks/taskcreate", "task", new TaskData());
+    }
+
+    @PostMapping("/create-task")
+    @ResponseBody
+    public void adminCreateTask(@RequestBody TaskData taskData)
+    {
+        taskService.addTask(taskData);
+    }
+
+    @PostMapping("/edit-task")
     @ResponseBody
     public void adminEditTask(@RequestBody TaskData taskData)
     {
@@ -93,26 +119,53 @@ public class AdminApiController {
     /* Метод должен формировать список клиентов */
     @GetMapping("/all-clients")
     @ResponseBody
-    public ClientPackDto adminClients() {
-        return new ClientPackDto(clientService.getAllClients());
+    public ModelAndView adminClients() {
+        ModelAndView modelAndView = new ModelAndView("clients/clientlist");
+        List<ClientData> clientDataList = clientService.getAllClients();
+        if (!Objects.isNull(clientDataList))
+            modelAndView.addObject("clientlist", clientDataList);
+        return modelAndView;
     }
 
-    /* Метод создания новой задачи */
-    @PostMapping("/add-task")
-    public void adminAddTask(@RequestBody TaskData taskData) {
-        taskService.addTask(taskData);
+    @PostMapping("/delete-client")
+    public String adminDeleteClient(@RequestParam("id") Long id)
+    {
+        clientService.deleteById(id);
+        return "redirect:/api/admin/all-clients";
+    }
+
+    @GetMapping("/client-tasks")
+    public ModelAndView adminClientTasks(@RequestParam("clientId") Long id) {
+        ModelAndView modelAndView = new ModelAndView("clients/clienttasks");
+        List<TaskData> taskDataList = taskService.getTasksForClient(id);
+        if (!Objects.isNull(taskDataList))
+            modelAndView.addObject("tasklist", taskDataList);
+        modelAndView.addObject("clientId", id);
+        return modelAndView;
     }
 
     /* Метод назначения задачи на клиента */
-    @GetMapping("/assign")
-    public void adminAssignTask(@RequestParam(name = "id", required = true) Long clientID,
-                                @RequestParam(name = "taskId", required = true) Long taskID) {
-        taskService.addTaskForClient(clientID, taskID);
+    @PostMapping("/assign")
+    public void adminAssignTask(@RequestBody SimpleClientTaskDataDto simpleClientTaskDataDto) {
+        taskService.addTaskForClient(simpleClientTaskDataDto.getClientId(), simpleClientTaskDataDto.getTaskId());
     }
 
     /* Метод отмены назначенной на клиента задачи */
     @DeleteMapping("/cancel-task")
+    @ResponseBody
     public void adminAssignTaskCancel(@RequestBody SimpleClientTaskDataDto simpleClientTaskDataDto) {
         taskService.deleteTaskForClient(simpleClientTaskDataDto);
+    }
+
+    @GetMapping("/add-task-to-client-page")
+    public ModelAndView addTaskToClientPage(@RequestParam("clientId") Long id) {
+        ModelAndView modelAndView = new ModelAndView("clients/clientaddtask");
+        ClientData client = clientService.getClient(id);
+        List<TaskData> taskDataList = taskService.getAllTasks().stream()
+                .filter(a->a.getOs() == client.getOs() && a.getOsType() == client.getOsType())
+                .collect(Collectors.toList());
+        if (!Objects.isNull(taskDataList))
+            modelAndView.addObject("tasklist", taskDataList);
+        return modelAndView;
     }
 }

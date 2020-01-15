@@ -2,20 +2,21 @@ package ru.vkr.model;
 
 import ru.vkr.model.enums.OS;
 import ru.vkr.model.enums.OSType;
+import ru.vkr.model.enums.TaskType;
 
 import java.util.Objects;
 
 public class TaskData {
     private Long id;
     private String name;
-    private String taskType;
+    private TaskType taskType;
     private String version;
     private OS os;
     private OSType osType;
     private String pathToRunFile;
     private String torrentFile;
 
-    public TaskData(Long id, String name, String taskType, String version, OS os, OSType osType, String pathToRunFile, String torrentFile) {
+    public TaskData(Long id, String name, TaskType taskType, String version, OS os, OSType osType, String pathToRunFile, String torrentFile) {
         this.id = id;
         this.name = name;
         this.taskType = taskType;
@@ -24,6 +25,9 @@ public class TaskData {
         this.osType = osType;
         this.pathToRunFile = pathToRunFile;
         this.torrentFile = torrentFile;
+    }
+
+    public TaskData() {
     }
 
     public void setId(Long id) {
@@ -42,11 +46,11 @@ public class TaskData {
         this.name = name;
     }
 
-    public String getTaskType() {
+    public TaskType getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(String taskType) {
+    public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
     }
 

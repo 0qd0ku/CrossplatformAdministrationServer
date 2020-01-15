@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public class ClientDao extends AbstractDao{
 
-    private static final String GET_CLIENT_QUERY = "SELECT FROM clients WHERE hostname = :hostname";
+    private static final String GET_CLIENT_BY_ID = "SELECT * FROM clients WHERE id = :id";
+    private static final String GET_CLIENT_QUERY = "SELECT * FROM clients WHERE hostname = :hostname";
     private static final String GET_ALL_CLIENTS_QUERY = "SELECT * FROM clients";
     private static final String ADD_CLIENT_QUERY = "INSERT INTO clients(token, hostname, os, osType, macAddr) " +
             "VALUES (:token, :hostName, :os, :osType, :macAddr)";
@@ -35,6 +36,12 @@ public class ClientDao extends AbstractDao{
                 .addValue("osType", client.getOsType().getValue())
                 .addValue("macAddr", client.getMacAddr());
         return parameterJdbcTemplate.update(ADD_CLIENT_QUERY, mapSource);
+    }
+
+    public ClientData getClient(Long id) {
+        mapSource =  new MapSqlParameterSource()
+                .addValue("id", id);
+        return parameterJdbcTemplate.query(GET_CLIENT_BY_ID, mapSource, clientDataListRowMapper).get(0);
     }
 
     public ClientData getClient(String hostname) {

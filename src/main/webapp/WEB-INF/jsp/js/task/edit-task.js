@@ -1,9 +1,5 @@
 var edittask = function () {
-	var file = document.getElementById("torrentFile").files[0];
-	var reader = new FileReader();
-	reader.readAsDataURL(file);
-	reader.onloadend = function() {
-		re = reader.result.substr(reader.result.indexOf(',') + 1);
+	var sendToServer = function(result) {
 		var authJsonObject = {
 			"id": document.getElementById("id").value,
 			"name": document.getElementById("name").value,
@@ -12,7 +8,7 @@ var edittask = function () {
 			"os": document.getElementById("os").value,
 			"osType": document.getElementById("osType").value,
 			"pathToRunFile": document.getElementById("pathToRunFile").value,
-			"torrentFile": re
+			"torrentFile": result
 		};
 		$.ajax({
 			type: "POST",
@@ -22,12 +18,19 @@ var edittask = function () {
 			dataType: 'text',
 			async: false,
 			success: function (response) {
-				alert("Success: " + response);
 				document.location.href = '/api/admin/all-tasks';
 			},
 			error: function (exception) {
 				alert("Error:" + exception.responseText);
 			}
 		})
+	}
+	var file = document.getElementById("torrentFile").files[0];
+	var reader = new FileReader();
+	if (file != null) {
+		reader.readAsDataURL(file);
+		reader.onloadend = res => sendToServer(res.target.result.substr(res.target.result.indexOf(',') + 1));
+	} else {
+		sendToServer(null);
 	}
 };

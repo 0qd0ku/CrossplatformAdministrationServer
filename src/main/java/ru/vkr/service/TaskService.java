@@ -61,7 +61,7 @@ public class TaskService {
         taskDao.deleteTaskForClient(simpleClientTaskDataDto);
     }
 
-    private List<ClientData> getClientsForTask(Long id) {
+    public List<ClientData> getClientsForTask(Long id) {
         return taskDao.getClientsForTask(id);
     }
 }

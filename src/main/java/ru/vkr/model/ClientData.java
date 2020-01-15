@@ -19,6 +19,13 @@ public class ClientData {
     private List<TaskData> taskList;
 
     public ClientData(String token, String hostname, OS os, OSType osType, String macAddr) {
+        this.token = token;
+        this.hostname = hostname;
+        this.os = os;
+        this.osType = osType;
+        this.macAddr = macAddr;
+    }
+    public ClientData(Long id, String token, String hostname, OS os, OSType osType, String macAddr) {
         this.id = id;
         this.token = token;
         this.hostname = hostname;

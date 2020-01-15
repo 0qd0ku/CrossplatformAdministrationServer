@@ -6,44 +6,43 @@
     <title>Управления задачами</title>
 </head>
 <body>
-<table width="100%" height="100%">
-    <tr>
-        <td align="center">
-            <table border="1" width="100%">
+<div>
+            <table style="border: 1px solid black; border-collapse: collapse;">
                 <tr>
-                    <td>Идентификатор</td>
-                    <td>Имя</td>
-                    <td>Тип</td>
-                    <td>Версия</td>
-                    <td>Операционная система</td>
-                    <td>Архитектура</td>
-                    <td>Путь к исполняемому файлу</td>
-                    <td>Base64 Torrent</td>
+                    <td style="border: 1px solid black;">Номер:</td>
+                    <td style="border: 1px solid black;">Имя:</td>
+                    <td style="border: 1px solid black;">Тип:</td>
+                    <td style="border: 1px solid black;">Версия:</td>
+                    <td style="border: 1px solid black;">OS:</td>
+                    <td style="border: 1px solid black;">OS arch:</td>
+                    <td style="border: 1px solid black;">Run File:</td>
+                    <td style="border: 1px solid black;">Torrent:</td>
+                    <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                 </tr>
                 <c:forEach var="task" items="${tasklist}">
                     <tr>
-                        <td>${task.id}</td>
-                        <td>${task.name}</td>
-                        <td>${task.taskType}</td>
-                        <td>${task.version}</td>
-                        <td>${task.os.value}</td>
-                        <td>${task.osType.value}</td>
-                        <td>${task.pathToRunFile}</td>
-                        <td>${task.torrentFile}</td>
-                        <td><spring:form method="POST" action="delete-task"><button name="id" value="${task.id}">Удалить</button></spring:form></td>
-                        <td><spring:form method="GET"  action="edit-page"><button name="id" value="${task.id}">Изменить</button></spring:form></td>
+                        <td style="border: 1px solid black;">${task.id}</td>
+                        <td style="border: 1px solid black;">${task.name}</td>
+                        <td style="border: 1px solid black;">${task.taskType.value}</td>
+                        <td style="border: 1px solid black;">${task.version}</td>
+                        <td style="border: 1px solid black;">${task.os.value}</td>
+                        <td style="border: 1px solid black;">${task.osType.value}</td>
+                        <td style="border: 1px solid black;">${task.pathToRunFile}</td>
+                        <td style="border: 1px solid black; text-align: center">${task.torrentFile != null ? "<img src=\"https://iconizer.net/files/Puck_icons_pack_II/thumb/128/uTorrent.png\" width=\"30\" height=\"30\">" : ""}</td>
+                        <td style="border: 1px solid black;"><spring:form method="POST" action="delete-task"><button name="id" value="${task.id}">Удалить</button></spring:form></td>
+                        <td style="border: 1px solid black;"><spring:form method="GET"  action="edit-task-page"><button name="id" value="${task.id}">Изменить</button></spring:form></td>
+                        <td style="border: 1px solid black;"><spring:form method="GET"  action="task-clients"><button name="taskId" value="${task.id}">Список клиентов</button></spring:form></td>
                     </tr>
                 </c:forEach>
             </table>
         <table>
             <tr>
                 <td><button name="tasks" onClick='location.href="main"'>Назад</button></td>
+                <td><button onclick='location.href="create-task-page"'>Создать </button></td>
             </tr>
         </table>
-        </td>
-    </tr>
-</table>
+</div>
 </body>
 </html>

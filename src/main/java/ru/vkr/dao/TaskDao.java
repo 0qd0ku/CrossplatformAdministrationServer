@@ -30,26 +30,24 @@ public class TaskDao extends AbstractDao {
             "ON  t.clientId = c.id " +
             "WHERE t.taskId = :id";
     private static final String ADD_TASK_TO_CLIENT_BY_ID = "INSERT INTO clienttasks(taskId, clientId) VALUES (:taskId, :clientId)";
-    private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE clienttasks WHERE taskId = :taskId AND clientId = :clientId";
+    private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE FROM clienttasks WHERE taskId = :taskId AND clientId = :clientId";
     private static final String UPDATE_TASK_STATUS = "UPDATE clienttasks SET status = :status WHERE taskId = :taskId AND clientId = :clientId";
-
 
     private static final RowMapper<ClientData> clientDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(ClientData.class);
     private static final RowMapper<TaskData> taskDataDtoRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskData.class);
-
-
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskData.class);
+
 
     public int addTask(TaskData task) {
         mapSource =  new MapSqlParameterSource()
                 .addValue("name", task.getName())
-                .addValue("taskType", task.getTaskType())
+                .addValue("taskType", task.getTaskType().name())
                 .addValue("version", task.getVersion())
-                .addValue("os", task.getOs().getValue())
-                .addValue("osType", task.getOsType().getValue())
+                .addValue("os", task.getOs().name())
+                .addValue("osType", task.getOsType().name())
                 .addValue("pathToRunFile", task.getPathToRunFile())
                 .addValue("torrentFile", task.getTorrentFile());
 
@@ -77,7 +75,7 @@ public class TaskDao extends AbstractDao {
         mapSource = new MapSqlParameterSource()
                 .addValue("id", task.getId())
                 .addValue("name", task.getName())
-                .addValue("taskType", task.getTaskType())
+                .addValue("taskType", task.getTaskType().name())
                 .addValue("version", task.getVersion())
                 .addValue("os", task.getOs().name())
                 .addValue("osType", task.getOsType().name())
