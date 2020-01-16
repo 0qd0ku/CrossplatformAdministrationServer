@@ -146,6 +146,7 @@ public class AdminApiController {
 
     /* Метод назначения задачи на клиента */
     @PostMapping("/assign")
+    @ResponseBody
     public void adminAssignTask(@RequestBody SimpleClientTaskDataDto simpleClientTaskDataDto) {
         taskService.addTaskForClient(simpleClientTaskDataDto.getClientId(), simpleClientTaskDataDto.getTaskId());
     }
@@ -166,6 +167,7 @@ public class AdminApiController {
                 .collect(Collectors.toList());
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
+        modelAndView.addObject("clientId", id);
         return modelAndView;
     }
 }

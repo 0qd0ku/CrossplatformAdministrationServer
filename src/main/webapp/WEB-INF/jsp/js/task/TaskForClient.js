@@ -40,9 +40,9 @@ var deleteTask = function (taskId, clientId) {
     })
 };
 
-var addTask = function (taskId, clientId) {
+var addTask = function (clientId) {
     var authJsonObject = {
-        "taskId": taskId,
+        "taskId": document.getElementById("task").value,
         "clientId": clientId,
     };
     $.ajax({
@@ -53,7 +53,7 @@ var addTask = function (taskId, clientId) {
         dataType: 'text',
         async: false,
         success: function (response) {
-            document.location.href = '/api/admin/all-clients';
+            document.location.href = '/api/admin/client-tasks?clientId=' + clientId;
         },
         error: function (exception) {
             alert("Error:" + exception.responseText);

@@ -17,7 +17,7 @@ public class ClientDao extends AbstractDao{
     private static final String ADD_CLIENT_QUERY = "INSERT INTO clients(token, hostname, os, osType, macAddr) " +
             "VALUES (:token, :hostName, :os, :osType, :macAddr)";
 
-    private static final String DELETE_CLIENT_BY_ID = "DELETE clients WHERE id = :id";
+    private static final String DELETE_CLIENT_BY_ID = "DELETE FROM clients WHERE id = :id";
     private static final String UPDATE_CLIENT_BY_ID = "UPDATE clients SET token = :token, hostname = :hostname, os = :os, osType = :osType, macAddr = :macAddr " +
             "WHERE id = :id";
     private static final String DELETE_CLIENT_BY_HOSTNAME = "DELETE clients WHERE hostname = ?";

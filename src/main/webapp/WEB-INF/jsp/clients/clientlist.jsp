@@ -16,6 +16,7 @@
             <td style="border: 1px solid black;">Mac:</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
         <c:forEach var="client" items="${clientlist}">
             <tr>

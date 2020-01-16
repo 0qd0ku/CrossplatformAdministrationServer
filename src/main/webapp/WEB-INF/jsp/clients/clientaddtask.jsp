@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>Назначение задачи клиенту</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript"><%@include file="../js/task/TaskForClient.js"%> </script>
 </head>
 <body>
 <div>
@@ -12,7 +14,7 @@
             <td style="border: 1px solid black;">Выберите задачу:</td>
         </tr>
         <tr><td>
-            <select>
+            <select id="task">
                 <c:forEach var="task" items="${tasklist}">
                     <option value="${task.id}">${task.name}:${task.version}</option>
                 </c:forEach>
@@ -22,7 +24,7 @@
     <table>
         <tr>
             <td><button name="tasks" onClick='location.href="main"'>Назад</button></td>
-            <td><button onclick='location.href="create-task-page"'>Создать </button></td>
+            <td><button onclick="addTask(${clientId})">Назначить</button></td>
         </tr>
     </table>
 </div>
