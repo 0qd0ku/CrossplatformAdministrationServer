@@ -2,6 +2,7 @@ package ru.vkr.controler;
 
 import com.logging.Logging;
 import com.logging.LoggingLvl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +166,7 @@ public class AdminApiController {
         List<TaskData> taskDataList = taskService.getAllTasks().stream()
                 .filter(a->a.getOs() == client.getOs() && a.getOsType() == client.getOsType())
                 .collect(Collectors.toList());
-        if (!Objects.isNull(taskDataList))
+        if (CollectionUtils.isNotEmpty(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         modelAndView.addObject("clientId", id);
         return modelAndView;
