@@ -12,6 +12,4 @@ public abstract class AbstractDao {
     protected JdbcTemplate jdbcTemplate;
     @Autowired
     protected NamedParameterJdbcTemplate parameterJdbcTemplate;
-
-    protected MapSqlParameterSource mapSource;
 }

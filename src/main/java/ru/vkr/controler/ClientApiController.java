@@ -6,20 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.vkr.model.*;
+import ru.vkr.model.dto.ClientTaskStatusDto;
+import ru.vkr.model.dto.TaskPackDto;
 import ru.vkr.service.TaskService;
-import ru.vkr.service.auth.ClientAuthorizationService;
+import ru.vkr.service.auth.AuthorizationService;
 
 @Controller
 @RequestMapping("/api/client")
 public class ClientApiController {
     private static final Logger logger = LoggerFactory.getLogger(ClientApiController.class);
 
-    private final ClientAuthorizationService clientAuthorizationService;
+    private final AuthorizationService authorizationService;
     private final TaskService taskService;
 
     @Autowired
-    public ClientApiController(ClientAuthorizationService clientAuthorizationService, TaskService taskService) {
-        this.clientAuthorizationService = clientAuthorizationService;
+    public ClientApiController(AuthorizationService authorizationService, TaskService taskService) {
+        this.authorizationService = authorizationService;
         this.taskService = taskService;
     }
 
@@ -27,7 +29,7 @@ public class ClientApiController {
     @ResponseBody
     public SessionData clientCheckin(@RequestBody ClientData clientData) {
         logger.debug("Received request for checkin: {}", clientData);
-        SessionData sessionData = clientAuthorizationService.process(clientData);
+        SessionData sessionData = authorizationService.clientCheckIn(clientData);
         logger.debug("Get response: {}", sessionData);
         return sessionData;
     }

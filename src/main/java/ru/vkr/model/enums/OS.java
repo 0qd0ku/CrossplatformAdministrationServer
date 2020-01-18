@@ -5,7 +5,8 @@ public enum OS {
     LINUX("Linux"),
     MACOS("MacOS");
 
-    private String os;
+    private final String os;
+
     OS(String os) {
         this.os = os;
     }

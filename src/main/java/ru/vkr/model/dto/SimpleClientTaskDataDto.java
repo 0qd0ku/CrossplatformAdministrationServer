@@ -1,4 +1,4 @@
-package ru.vkr.model;
+package ru.vkr.model.dto;
 
 public class SimpleClientTaskDataDto {
     private Long clientId;

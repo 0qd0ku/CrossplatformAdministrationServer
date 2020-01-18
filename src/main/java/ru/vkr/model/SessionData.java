@@ -1,5 +1,7 @@
 package ru.vkr.model;
 
+import java.util.Date;
+
 public class SessionData {
     public enum SessionType {
         ADMIN(1, "admin"), CLIENT(2, "client");
@@ -40,6 +42,8 @@ public class SessionData {
     }
     private String token;
     private SessionType sessionType;
+    private long clientId;
+    private Date expDate;
 
     public String getToken() {
         return token;
@@ -57,11 +61,29 @@ public class SessionData {
         this.sessionType = sessionType;
     }
 
+    public long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Date getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(Date expDate) {
+        this.expDate = expDate;
+    }
+
     @Override
     public String toString() {
-        return "SessionDataDto{" +
+        return "SessionData{" +
                 "token='" + token + '\'' +
                 ", sessionType=" + sessionType +
+                ", clientId=" + clientId +
+                ", expDate=" + expDate +
                 '}';
     }
 }

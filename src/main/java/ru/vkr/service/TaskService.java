@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.ClientTaskStatusDto;
-import ru.vkr.model.SimpleClientTaskDataDto;
+import ru.vkr.model.dto.ClientTaskStatusDto;
+import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
-import ru.vkr.model.enums.TaskStatus;
 
 import java.util.List;
 

@@ -1,15 +1,18 @@
 package ru.vkr.dao;
 
 import org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory;
+import org.simpleflatmapper.map.property.FieldMapperColumnDefinition;
+import org.simpleflatmapper.reflect.Getter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.ClientTaskStatusDto;
-import ru.vkr.model.SimpleClientTaskDataDto;
+import ru.vkr.model.dto.ClientTaskStatusDto;
+import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
 import ru.vkr.model.enums.TaskStatus;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 @Repository
@@ -40,9 +43,14 @@ public class TaskDao extends AbstractDao {
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskData.class);
 
+    private static final RowMapper<ClientTaskStatusDto> clientTaskRowMapper = JdbcTemplateMapperFactory.newInstance()
+            .addColumnDefinition("status",
+                    FieldMapperColumnDefinition.customGetter((Getter<ResultSet, TaskStatus>) rs ->
+                            TaskStatus.getTaskStatusByName(rs.getString("status"))))
+            .ignorePropertyNotFound().newRowMapper(ClientTaskStatusDto.class);
 
     public int addTask(TaskData task) {
-        mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("name", task.getName())
                 .addValue("taskType", task.getTaskType().name())
                 .addValue("version", task.getVersion())
@@ -55,7 +63,7 @@ public class TaskDao extends AbstractDao {
     }
 
     public TaskData getTask(Long id) {
-         mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_TASK_QUERY, mapSource, taskDataListRowMapper).get(0);
     }
@@ -66,13 +74,13 @@ public class TaskDao extends AbstractDao {
     }
 
     public int deleteById(Long id) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.update(DELETE_TASK_BY_ID, mapSource);
     }
 
     public int updateTask(TaskData task) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", task.getId())
                 .addValue("name", task.getName())
                 .addValue("taskType", task.getTaskType().name())
@@ -85,33 +93,33 @@ public class TaskDao extends AbstractDao {
     }
 
     public List<TaskData> getTasksForClient(Long id) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_TASKS_FOR_CLIENT, mapSource, taskDataDtoRowMapper);
     }
 
     public int addTaskForClient(Long idClient, Long idTask) {
-        mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("clientId", idClient)
                 .addValue("taskId", idTask);
         return parameterJdbcTemplate.update(ADD_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 
     public int deleteTaskForClient(SimpleClientTaskDataDto simpleClientTaskDataDto) {
-        mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("clientId", simpleClientTaskDataDto.getClientId())
                 .addValue("taskId", simpleClientTaskDataDto.getTaskId());
         return parameterJdbcTemplate.update(DELETE_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 
     public List<ClientData> getClientsForTask(Long id) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_CLIENTS_FOR_TASK, mapSource, clientDataListRowMapper);
     }
 
     public void updateStatus(ClientTaskStatusDto clientTaskStatusDto) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("taskId", clientTaskStatusDto.getClientTaskData().getTaskId())
                 .addValue("clientId", clientTaskStatusDto.getClientTaskData().getClientId())
                 .addValue("status", clientTaskStatusDto.getTaskStatus().getValue());
