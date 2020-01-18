@@ -1,4 +1,6 @@
-package ru.vkr.model;
+package ru.vkr.model.dto;
+
+import ru.vkr.model.TaskData;
 
 import java.util.List;
 

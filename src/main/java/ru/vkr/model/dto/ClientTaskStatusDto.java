@@ -1,4 +1,4 @@
-package ru.vkr.model;
+package ru.vkr.model.dto;
 
 import ru.vkr.model.enums.TaskStatus;
 

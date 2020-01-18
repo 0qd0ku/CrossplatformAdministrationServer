@@ -16,7 +16,6 @@ public class ClientData {
     private OS os;
     private OSType osType;
     private String macAddr;
-    private List<TaskData> taskList;
 
     public ClientData(String token, String hostname, OS os, OSType osType, String macAddr) {
         this.token = token;
@@ -25,6 +24,7 @@ public class ClientData {
         this.osType = osType;
         this.macAddr = macAddr;
     }
+
     public ClientData(Long id, String token, String hostname, OS os, OSType osType, String macAddr) {
         this.id = id;
         this.token = token;
@@ -33,11 +33,6 @@ public class ClientData {
         this.osType = osType;
         this.macAddr = macAddr;
     }
-
-    public void setTaskList(List<TaskData> taskList) {
-        this.taskList = taskList;
-    }
-
     public String getToken() {
         return token;
     }
@@ -82,10 +77,6 @@ public class ClientData {
         this.macAddr = macAddr;
     }
 
-    public List<TaskData> getTaskList() {
-        return taskList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,5 +93,17 @@ public class ClientData {
     @Override
     public int hashCode() {
         return Objects.hash(getToken(), getId(), getHostname(), getOs(), getOsType(), getMacAddr());
+    }
+
+    @Override
+    public String toString() {
+        return "ClientData{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", hostname='" + hostname + '\'' +
+                ", os=" + os +
+                ", osType=" + osType +
+                ", macAddr='" + macAddr + '\'' +
+                '}';
     }
 }

@@ -10,13 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.vkr.model.*;
+import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.service.ClientService;
 import ru.vkr.service.TaskService;
-import ru.vkr.service.auth.AdminAuthorizationService;
+import ru.vkr.service.auth.AuthorizationService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -27,15 +26,15 @@ public class AdminApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminApiController.class);
 
-    private final AdminAuthorizationService adminAuthorizationService;
+    private final AuthorizationService authorizationService;
     private final ClientService clientService;
     private final TaskService taskService;
 
     @Autowired
-    public AdminApiController(AdminAuthorizationService adminAuthorizationService,
+    public AdminApiController(AuthorizationService authorizationService,
                               ClientService clientService,
                               TaskService taskService) {
-        this.adminAuthorizationService = adminAuthorizationService;
+        this.authorizationService = authorizationService;
         this.clientService = clientService;
         this.taskService = taskService;
     }
@@ -44,7 +43,7 @@ public class AdminApiController {
     @ResponseBody
     public SessionData adminAuthorization(@RequestBody AdminAuthorizationData authData) {
         logger.debug("Received request: {}", authData);
-        SessionData sessionDataDto = adminAuthorizationService.process(authData);
+        SessionData sessionDataDto = authorizationService.adminAuth(authData);
         logger.debug("Handle response: {}", sessionDataDto);
         return sessionDataDto;
     }

@@ -6,7 +6,7 @@ public enum TaskType {
     PROGRAM("Program"),
     SH("Sh");
 
-    private String type;
+    private final String type;
     TaskType(String type) {
         this.type = type;
     }

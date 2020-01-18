@@ -22,14 +22,12 @@ public class ClientDao extends AbstractDao{
             "WHERE id = :id";
     private static final String DELETE_CLIENT_BY_HOSTNAME = "DELETE clients WHERE hostname = ?";
 
-
-
     private static final RowMapper<ClientData> clientDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(ClientData.class);
 
 
     public int addClient(ClientData client) {
-        mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("token", client.getToken())
                 .addValue("hostName", client.getHostname())
                 .addValue("os", client.getOs().getValue())
@@ -39,13 +37,13 @@ public class ClientDao extends AbstractDao{
     }
 
     public ClientData getClient(Long id) {
-        mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_CLIENT_BY_ID, mapSource, clientDataListRowMapper).get(0);
     }
 
     public ClientData getClient(String hostname) {
-        mapSource =  new MapSqlParameterSource()
+        MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("hostname", hostname);
         return parameterJdbcTemplate.query(GET_CLIENT_QUERY, mapSource, clientDataListRowMapper).get(0);
     }
@@ -56,19 +54,19 @@ public class ClientDao extends AbstractDao{
     }
 
     public int deleteById(Long id) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.update(DELETE_CLIENT_BY_ID, mapSource);
     }
 
     public int deleteByHostname(String hostname) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("hostname", hostname);
         return parameterJdbcTemplate.update(DELETE_CLIENT_BY_HOSTNAME, mapSource);
     }
 
     public int updateClient(ClientData client) {
-        mapSource = new MapSqlParameterSource()
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", client.getId())
                 .addValue("token", client.getToken())
                 .addValue("hostname", client.getHostname())
