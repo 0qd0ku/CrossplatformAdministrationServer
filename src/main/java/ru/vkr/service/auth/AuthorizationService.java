@@ -31,13 +31,18 @@ public class AuthorizationService {
 
     public SessionData adminAuth(AdminAuthorizationData authData) {
         logger.debug("Start authorization by admin console: {}", authData);
-        List<String> result = authorizationDao.authorization(authData);
+        List<Long> result = authorizationDao.authorization(authData);
         if (CollectionUtils.isEmpty(result)) {
             throw new IllegalArgumentException("Login and pass is incorrect");
         }
-        SessionData sessionData = new SessionData();
+        SessionData sessionData = authorizationDao.loadSessionDataByLoginId(result.get(0));
+        if(sessionData != null)
+        {
+            return sessionData;
+        }
         sessionData.setToken(TokenGenerator.generateToken());
         sessionData.setSessionType(SessionData.SessionType.ADMIN);
+        authorizationDao.addSessionData(sessionData);
         return sessionData;
     }
     /*

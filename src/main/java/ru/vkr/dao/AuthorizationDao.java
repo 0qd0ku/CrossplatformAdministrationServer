@@ -26,17 +26,18 @@ public class AuthorizationDao extends AbstractDao {
 
     private static final int TOKEN_UPDATE_EXP_HOUR = 24;
 
-    private static final String ADMIN_AUTH_QUERY = "SELECT login FROM logins WHERE login = :login AND password = :password";
+    private static final String ADMIN_AUTH_QUERY = "SELECT id FROM logins WHERE login = :login AND password = :password";
     private static final String GET_SESSION_DATA_QUERY = "SELECT * FROM sessions WHERE token = :token";
-
+    private static final String GET_SESSION_BY_LOGINID = "SELECT * FROM sessions WHERE clientId = :clientId";
+    private static final String ADD_AUTH_QUERY = "INSERT INTO sessions(token, clientId, dttm_exp, sessionType) VALUES (:token, :clientId, :dttm_exp, :sessionType)";
     private static final String UPDATE_SESSION_DATA = "UPDATE sessions " +
             "(token, dttm_exp) " +
             "SET " +
             "(:token, :dttm_exp) " +
             "WHERE token = :token";
 
-    private static final RowMapper<String> ADMIN_LOGIN_COUNT = JdbcTemplateMapperFactory.newInstance()
-            .newRowMapper(String.class);
+    private static final RowMapper<Long> ADMIN_LOGIN_COUNT = JdbcTemplateMapperFactory.newInstance()
+            .newRowMapper(Long.class);
     private static final RowMapper<SessionData> SESSION_MAPPER = JdbcTemplateMapperFactory.newInstance()
             .addAlias("dttm_exp", "expDate")
             .addColumnDefinition("sessionType",
@@ -50,7 +51,7 @@ public class AuthorizationDao extends AbstractDao {
      * @param adminAuthorizationData данные для авторизации
      * @return логин пользователя есть с такимии данными авторизации он  был найден в базе
      */
-    public List<String> authorization(AdminAuthorizationData adminAuthorizationData) {
+    public List<Long> authorization(AdminAuthorizationData adminAuthorizationData) {
         logger.debug("Start find client: {}", adminAuthorizationData);
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("login", adminAuthorizationData.getLogin())
@@ -58,11 +59,27 @@ public class AuthorizationDao extends AbstractDao {
         return parameterJdbcTemplate.query(ADMIN_AUTH_QUERY, mapSource, ADMIN_LOGIN_COUNT);
     }
 
+    public void addSessionData(SessionData sessionData) {
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
+                .addValue("token", sessionData.getToken())
+                .addValue("clientId", sessionData.getClientId())
+                .addValue("dttp_exp", sessionData.getExpDate())
+                .addValue("sessionType", sessionData.getSessionType());
+        parameterJdbcTemplate.update(ADD_AUTH_QUERY, mapSource);
+    }
+
     public SessionData loadSessionDataByToken(String token) {
         logger.debug("Get session by token: {}", token);
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
         .addValue("token", token);
-        return jdbcTemplate.query(GET_SESSION_DATA_QUERY, SESSION_MAPPER).get(0);
+        return jdbcTemplate.query(GET_SESSION_DATA_QUERY, SESSION_MAPPER, mapSource).get(0);
+    }
+
+    public SessionData loadSessionDataByLoginId(Long id) {
+        logger.debug("Get session by loginId: {}", id);
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
+                .addValue("clientId", id);
+        return jdbcTemplate.query(GET_SESSION_BY_LOGINID, SESSION_MAPPER, mapSource).get(0);
     }
 
     public void updateSessionData(String token) {
