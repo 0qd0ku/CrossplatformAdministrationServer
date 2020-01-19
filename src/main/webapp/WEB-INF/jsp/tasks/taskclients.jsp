@@ -17,16 +17,18 @@
             <td style="border: 1px solid black;">OS:</td>
             <td style="border: 1px solid black;">OS arch:</td>
             <td style="border: 1px solid black;">Mac:</td>
+            <td style="border: 1px solid black;">Task Status:</td>
             <td>&nbsp;</td>
         </tr>
-        <c:forEach var="client" items="${clientlist}">
+        <c:forEach var="client" items="${clientTaskStatusList}">
             <tr>
-                <td style="border: 1px solid black;">${client.id}</td>
-                <td style="border: 1px solid black;">${client.hostname}</td>
-                <td style="border: 1px solid black;">${client.os.value}</td>
-                <td style="border: 1px solid black;">${client.osType.value}</td>
-                <td style="border: 1px solid black;">${client.macAddr}</td>
-                <td style="border: 1px solid black;"><button onclick="deleteClient(${taskId}, ${client.id})">Отменить</button></td>
+                <td style="border: 1px solid black;">${client.clientData.id}</td>
+                <td style="border: 1px solid black;">${client.clientData.hostname}</td>
+                <td style="border: 1px solid black;">${client.clientData.os.value}</td>
+                <td style="border: 1px solid black;">${client.clientData.osType.value}</td>
+                <td style="border: 1px solid black;">${client.clientData.macAddr}</td>
+                <td style="border: 1px solid black;">${client.taskStatus}</td>
+                <td style="border: 1px solid black;"><button onclick="deleteClient(${taskId}, ${client.clientData.id})">Отменить</button></td>
             </tr>
         </c:forEach>
     </table>

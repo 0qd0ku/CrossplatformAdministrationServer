@@ -11,95 +11,70 @@ import java.util.Objects;
  */
 public class ClientData {
     private Long id;
-    private String token;
     private String hostname;
     private OS os;
     private OSType osType;
     private String macAddr;
 
-    public ClientData(String token, String hostname, OS os, OSType osType, String macAddr) {
-        this.token = token;
+    public ClientData() {
+    }
+
+    public ClientData(String hostname, OS os, OSType osType, String macAddr) {
         this.hostname = hostname;
         this.os = os;
         this.osType = osType;
         this.macAddr = macAddr;
-    }
-
-    public ClientData(Long id, String token, String hostname, OS os, OSType osType, String macAddr) {
-        this.id = id;
-        this.token = token;
-        this.hostname = hostname;
-        this.os = os;
-        this.osType = osType;
-        this.macAddr = macAddr;
-    }
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public Long getId() {
         return id;
     }
 
+    public ClientData setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getHostname() {
         return hostname;
     }
 
-    public void setHostname(String hostname) {
+    public ClientData setHostname(String hostname) {
         this.hostname = hostname;
+        return this;
     }
 
     public OS getOs() {
         return os;
     }
 
-    public void setOs(OS os) {
+    public ClientData setOs(OS os) {
         this.os = os;
+        return this;
     }
 
     public OSType getOsType() {
         return osType;
     }
 
-    public void setOsType(OSType osType) {
+    public ClientData setOsType(OSType osType) {
         this.osType = osType;
+        return this;
     }
 
     public String getMacAddr() {
         return macAddr;
     }
 
-    public void setMacAddr(String macAddr) {
+    public ClientData setMacAddr(String macAddr) {
         this.macAddr = macAddr;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ClientData)) return false;
-        ClientData that = (ClientData) o;
-        return getToken().equals(that.getToken()) &&
-                getId().equals(that.getId()) &&
-                getHostname().equals(that.getHostname()) &&
-                getOs() == that.getOs() &&
-                getOsType() == that.getOsType() &&
-                getMacAddr().equals(that.getMacAddr());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getToken(), getId(), getHostname(), getOs(), getOsType(), getMacAddr());
+        return this;
     }
 
     @Override
     public String toString() {
         return "ClientData{" +
                 "id=" + id +
-                ", token='" + token + '\'' +
                 ", hostname='" + hostname + '\'' +
                 ", os=" + os +
                 ", osType=" + osType +

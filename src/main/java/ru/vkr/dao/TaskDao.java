@@ -6,7 +6,11 @@ import org.simpleflatmapper.reflect.Getter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+import ru.vkr.dao.mapper.ClientTaskStatusInfoRowMapper;
+import ru.vkr.dao.mapper.TaskClientStatusInfoRowMapper;
 import ru.vkr.model.ClientData;
+import ru.vkr.model.ClientTaskStatusInfo;
+import ru.vkr.model.TaskClientStatusInfo;
 import ru.vkr.model.dto.ClientTaskStatusDto;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
@@ -36,10 +40,8 @@ public class TaskDao extends AbstractDao {
     private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE FROM clienttasks WHERE taskId = :taskId AND clientId = :clientId";
     private static final String UPDATE_TASK_STATUS = "UPDATE clienttasks SET status = :status WHERE taskId = :taskId AND clientId = :clientId";
 
-    private static final RowMapper<ClientData> clientDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
-            ignorePropertyNotFound().newRowMapper(ClientData.class);
-    private static final RowMapper<TaskData> taskDataDtoRowMapper = JdbcTemplateMapperFactory.newInstance().
-            ignorePropertyNotFound().newRowMapper(TaskData.class);
+    private static final ClientTaskStatusInfoRowMapper clientDataListRowMapper = new ClientTaskStatusInfoRowMapper();
+    private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskData.class);
 
@@ -92,7 +94,7 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(UPDATE_TASK, mapSource);
     }
 
-    public List<TaskData> getTasksForClient(Long id) {
+    public List<TaskClientStatusInfo> getTasksForClient(Long id) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_TASKS_FOR_CLIENT, mapSource, taskDataDtoRowMapper);
@@ -112,7 +114,7 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(DELETE_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 
-    public List<ClientData> getClientsForTask(Long id) {
+    public List<ClientTaskStatusInfo> getClientsForTask(Long id) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_CLIENTS_FOR_TASK, mapSource, clientDataListRowMapper);

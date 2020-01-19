@@ -33,15 +33,15 @@ public class ClientApiController {
         logger.debug("Get response: {}", sessionData);
         return sessionData;
     }
-
-    @GetMapping("/tasks")
-    @ResponseBody
-    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long id) {
-        logger.debug("Received request for get clients tasks");
-        TaskPackDto taskPackDto = new TaskPackDto(taskService.getTasksForClient(id));
-        logger.debug("Get response data: {}", taskPackDto);
-        return taskPackDto;
-    }
+//TODO fix this tonight
+//    @GetMapping("/tasks")
+//    @ResponseBody
+//    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long id) {
+//        logger.debug("Received request for get clients tasks");
+//        TaskPackDto taskPackDto = new TaskPackDto(taskService.getTasksForClient(id));
+//        logger.debug("Get response data: {}", taskPackDto);
+//        return taskPackDto;
+//    }
 
     @GetMapping("get-task")
     @ResponseBody

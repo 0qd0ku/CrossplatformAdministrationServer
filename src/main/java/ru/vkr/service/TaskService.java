@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
+import ru.vkr.model.ClientTaskStatusInfo;
+import ru.vkr.model.TaskClientStatusInfo;
 import ru.vkr.model.dto.ClientTaskStatusDto;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
@@ -48,7 +50,7 @@ public class TaskService {
     }
 
 
-    public List<TaskData> getTasksForClient(Long id) {
+    public List<TaskClientStatusInfo> getTasksForClient(Long id) {
         return taskDao.getTasksForClient(id);
     }
 
@@ -60,7 +62,7 @@ public class TaskService {
         taskDao.deleteTaskForClient(simpleClientTaskDataDto);
     }
 
-    public List<ClientData> getClientsForTask(Long id) {
+    public List<ClientTaskStatusInfo> getClientsForTask(Long id) {
         return taskDao.getClientsForTask(id);
     }
 }

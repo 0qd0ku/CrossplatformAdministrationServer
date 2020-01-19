@@ -28,7 +28,6 @@ public class ClientDao extends AbstractDao{
 
     public int addClient(ClientData client) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
-                .addValue("token", client.getToken())
                 .addValue("hostName", client.getHostname())
                 .addValue("os", client.getOs().getValue())
                 .addValue("osType", client.getOsType().getValue())
@@ -68,7 +67,6 @@ public class ClientDao extends AbstractDao{
     public int updateClient(ClientData client) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", client.getId())
-                .addValue("token", client.getToken())
                 .addValue("hostname", client.getHostname())
                 .addValue("os", client.getOs().getValue())
                 .addValue("osType", client.getOsType().getValue())

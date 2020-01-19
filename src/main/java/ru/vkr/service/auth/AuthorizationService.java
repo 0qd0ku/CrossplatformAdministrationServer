@@ -58,8 +58,7 @@ public class AuthorizationService {
         if (Objects.isNull(client)) {
             client = cs.addClient(sessionData.getToken(), authData.getHostname(), authData.getOs(), authData.getOsType(), authData.getMacAddr());
         } else {
-            client.setToken(sessionData.getToken());
-            cs.updateClient(client);
+
         }
         sessionData.setSessionType(SessionData.SessionType.CLIENT);
         return sessionData;

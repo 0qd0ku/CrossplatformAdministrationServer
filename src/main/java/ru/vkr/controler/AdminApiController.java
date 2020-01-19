@@ -76,9 +76,9 @@ public class AdminApiController {
     @GetMapping("/task-clients")
     public ModelAndView adminTaskClients(@RequestParam("taskId") Long id) {
         ModelAndView modelAndView = new ModelAndView("tasks/taskclients");
-        List<ClientData> clientDataList = taskService.getClientsForTask(id);
+        List<ClientTaskStatusInfo> clientDataList = taskService.getClientsForTask(id);
         if (!Objects.isNull(clientDataList))
-            modelAndView.addObject("clientlist", clientDataList);
+            modelAndView.addObject("clientTaskStatusList", clientDataList);
         modelAndView.addObject("taskId", id);
         return modelAndView;
     }
@@ -137,7 +137,7 @@ public class AdminApiController {
     @GetMapping("/client-tasks")
     public ModelAndView adminClientTasks(@RequestParam("clientId") Long id) {
         ModelAndView modelAndView = new ModelAndView("clients/clienttasks");
-        List<TaskData> taskDataList = taskService.getTasksForClient(id);
+        List<TaskClientStatusInfo> taskDataList = taskService.getTasksForClient(id);
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         modelAndView.addObject("clientId", id);

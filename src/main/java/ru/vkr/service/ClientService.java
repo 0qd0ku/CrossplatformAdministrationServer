@@ -26,7 +26,7 @@ public class ClientService {
 
     public ClientData addClient(String token, String hostname, OS os, OSType osType, String macAddr)
     {
-        clientDao.addClient(new ClientData(token, hostname, os, osType, macAddr));
+        clientDao.addClient(new ClientData(hostname, os, osType, macAddr));
         return clientDao.getClient(hostname);
     }
 
