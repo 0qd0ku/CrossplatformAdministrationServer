@@ -1,6 +1,7 @@
 package ru.vkr.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,9 +62,10 @@ public class ServletConfig implements Filter {
             }
         }
 
-        SessionData sessionData = authorizationService.loadSessionDataByToken(authToken);
+        List<SessionData> sessionDataList = authorizationService.loadSessionDataByToken(authToken);
 
-        if (!Objects.isNull(sessionData)) {
+        if (CollectionUtils.isNotEmpty(sessionDataList)) {
+            SessionData sessionData = sessionDataList.get(0);
             switch (sessionData.getSessionType()) {
                 case ADMIN:
                     authorizationService.updateSessionData(authToken);

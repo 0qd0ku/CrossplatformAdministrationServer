@@ -65,12 +65,11 @@ public class AuthorizationService {
         return sessionData;
     }
 
-    public SessionData updateSessionData(String token) {
+    public void updateSessionData(String token) {
         authorizationDao.updateSessionData(token);
-        return loadSessionDataByToken(token);
     }
 
-    public SessionData loadSessionDataByToken(String token) {
+    public List<SessionData> loadSessionDataByToken(String token) {
         return authorizationDao.loadSessionDataByToken(token);
     }
 }
