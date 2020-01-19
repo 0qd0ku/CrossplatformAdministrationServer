@@ -31,9 +31,8 @@ public class AuthorizationDao extends AbstractDao {
     private static final String GET_SESSION_BY_LOGINID = "SELECT * FROM sessions WHERE clientId = :clientId";
     private static final String ADD_AUTH_QUERY = "INSERT INTO sessions(token, clientId, dttm_exp, sessionType) VALUES (:token, :clientId, :dttm_exp, :sessionType)";
     private static final String UPDATE_SESSION_DATA = "UPDATE sessions " +
-            "(token, dttm_exp) " +
             "SET " +
-            "(:token, :dttm_exp) " +
+            "dttm_exp = :dttm_exp " +
             "WHERE token = :token";
 
     private static final RowMapper<Long> ADMIN_LOGIN_COUNT = JdbcTemplateMapperFactory.newInstance()
@@ -72,22 +71,22 @@ public class AuthorizationDao extends AbstractDao {
         logger.debug("Get session by token: {}", token);
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
         .addValue("token", token);
-        return jdbcTemplate.query(GET_SESSION_DATA_QUERY, SESSION_MAPPER, mapSource).get(0);
+        return parameterJdbcTemplate.query(GET_SESSION_DATA_QUERY, mapSource, SESSION_MAPPER).get(0);
     }
 
     public SessionData loadSessionDataByLoginId(Long id) {
         logger.debug("Get session by loginId: {}", id);
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("clientId", id);
-        return jdbcTemplate.query(GET_SESSION_BY_LOGINID, SESSION_MAPPER, mapSource).get(0);
+        return parameterJdbcTemplate.query(GET_SESSION_BY_LOGINID, mapSource, SESSION_MAPPER).get(0);
     }
 
     public void updateSessionData(String token) {
         logger.debug("Update session Data by token: {}", token);
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
-                .addValue("token", TokenGenerator.generateToken())
+                .addValue("token", token)
                 .addValue("dttm_exp", spotDate());
-        jdbcTemplate.update(UPDATE_SESSION_DATA, mapSource);
+        parameterJdbcTemplate.update(UPDATE_SESSION_DATA, mapSource);
     }
 
     private Date spotDate() {

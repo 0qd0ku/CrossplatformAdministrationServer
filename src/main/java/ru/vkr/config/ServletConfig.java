@@ -12,13 +12,11 @@ import ru.vkr.model.SessionData;
 import ru.vkr.service.auth.AuthorizationService;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Configuration
@@ -53,8 +51,14 @@ public class ServletConfig implements Filter {
         }
         String authToken = request.getHeader(AUTH_HEADER_NAME);
         if (StringUtils.isBlank(authToken)) {
-            sendResponse((HttpServletResponse) servletResponse, "Session token is null", HttpStatus.UNAUTHORIZED);
-        return;
+            Optional<Cookie> coockie = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token")).findFirst();
+            if (coockie.isPresent()) {
+                authToken = coockie.get().getValue();
+            }
+            if (StringUtils.isBlank(authToken)) {
+                sendResponse((HttpServletResponse) servletResponse, "Session token is null", HttpStatus.UNAUTHORIZED);
+                return;
+            }
         }
 
         SessionData sessionData = authorizationService.loadSessionDataByToken(authToken);
@@ -63,11 +67,12 @@ public class ServletConfig implements Filter {
             switch (sessionData.getSessionType()) {
                 case ADMIN:
                     authorizationService.updateSessionData(authToken);
-                    return;
+                    break;
                 case CLIENT:
                     if (sessionData.getExpDate().before(new Date())) {
                         LOGGER.debug("Session by token {} is Expired", authToken);
                         sendResponse((HttpServletResponse) servletResponse, "Session token is Expired", HttpStatus.UNAUTHORIZED);
+                        return;
                     }
             }
         } else {
@@ -76,6 +81,7 @@ public class ServletConfig implements Filter {
             sendResponse((HttpServletResponse) servletResponse, "Session not found. Auth token is invalid", HttpStatus.UNAUTHORIZED);
             return;
         }
+        filterChain.doFilter(request, servletResponse);
     }
 
     private void sendResponse(HttpServletResponse response,

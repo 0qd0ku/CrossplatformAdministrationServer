@@ -40,9 +40,11 @@ public class SessionData {
                     '}';
         }
     }
+
+
     private String token;
     private SessionType sessionType;
-    private long clientId;
+    private Long clientId;
     private Date expDate;
 
     public String getToken() {
@@ -61,11 +63,11 @@ public class SessionData {
         this.sessionType = sessionType;
     }
 
-    public long getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(long clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
