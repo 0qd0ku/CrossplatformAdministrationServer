@@ -13,6 +13,7 @@ var createtask = function () {
             type: "POST",
             url: "/api/admin/create-task",
             contentType: "application/json; charset=utf-8",
+            headers: {"Authorization" : getCookie("token")},
             data: JSON.stringify(authJsonObject),
             dataType: 'text',
             async: false,
@@ -23,7 +24,8 @@ var createtask = function () {
                 alert("Error:" + exception.responseText);
             }
         })
-    }
+    };
+
     var file = document.getElementById("torrentFile").files[0];
     var reader = new FileReader();
     if (file != null) {

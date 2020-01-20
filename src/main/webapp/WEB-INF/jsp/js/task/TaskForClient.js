@@ -8,6 +8,7 @@ var deleteClient = function (taskId, clientId) {
             url: "/api/admin/cancel-task",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(authJsonObject),
+            headers: {"Authorization" : getCookie("token")},
             dataType: 'text',
             async: false,
             success: function (response) {
@@ -29,6 +30,7 @@ var deleteTask = function (taskId, clientId) {
         url: "/api/admin/cancel-task",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(authJsonObject),
+        headers: {"Authorization" : getCookie("token")},
         dataType: 'text',
         async: false,
         success: function (response) {
@@ -50,6 +52,7 @@ var addTask = function (clientId) {
         url: "/api/admin/assign",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(authJsonObject),
+        headers: {"Authorization" : getCookie("token")},
         dataType: 'text',
         async: false,
         success: function (response) {

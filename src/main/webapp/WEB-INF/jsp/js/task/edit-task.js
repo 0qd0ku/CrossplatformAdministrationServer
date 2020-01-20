@@ -15,6 +15,7 @@ var edittask = function () {
 			url: "/api/admin/edit-task",
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(authJsonObject),
+			headers: {"Authorization" : getCookie("token")},
 			dataType: 'text',
 			async: false,
 			success: function (response) {

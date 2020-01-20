@@ -52,9 +52,12 @@ public class ServletConfig implements Filter {
         }
         String authToken = request.getHeader(AUTH_HEADER_NAME);
         if (StringUtils.isBlank(authToken)) {
-            Optional<Cookie> coockie = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token")).findFirst();
-            if (coockie.isPresent()) {
-                authToken = coockie.get().getValue();
+            Cookie[] coockies = request.getCookies();
+            if (coockies != null) {
+                Optional<Cookie> coockie = Arrays.stream(coockies).filter(cookie -> cookie.getName().equals("token")).findFirst();
+                if (coockie.isPresent()) {
+                    authToken = coockie.get().getValue();
+                }
             }
             if (StringUtils.isBlank(authToken)) {
                 sendResponse((HttpServletResponse) servletResponse, "Session token is null", HttpStatus.UNAUTHORIZED);
