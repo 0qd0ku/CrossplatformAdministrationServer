@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.vkr.dao.mapper.ClientTaskStatusInfoRowMapper;
 import ru.vkr.dao.mapper.TaskClientStatusInfoRowMapper;
-import ru.vkr.model.ClientData;
 import ru.vkr.model.ClientTaskStatusInfo;
 import ru.vkr.model.TaskClientStatusInfo;
 import ru.vkr.model.dto.ClientTaskStatusDto;
@@ -28,7 +27,7 @@ public class TaskDao extends AbstractDao {
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = :id";
     private static final String UPDATE_TASK = "UPDATE tasks SET name = :name, taskType = :taskType, " +
             "version = :version, os = :os, osType = :osType, pathToRunFile = :pathToRunFile, torrentFile = :torrentFile WHERE id = :id";
-    private static final String GET_TASKS_FOR_CLIENT = "SELECT t.* , c.status FROM tasks t " +
+    private static final String GET_CLIENT_TASKS_FOR_EDIT = "SELECT t.* , c.status FROM tasks t " +
             "JOIN clienttasks c " +
             "ON  c.taskId = t.id " +
             "WHERE c.clientId = :id";
@@ -39,6 +38,15 @@ public class TaskDao extends AbstractDao {
     private static final String ADD_TASK_TO_CLIENT_BY_ID = "INSERT INTO clienttasks(taskId, clientId) VALUES (:taskId, :clientId)";
     private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE FROM clienttasks WHERE taskId = :taskId AND clientId = :clientId";
     private static final String UPDATE_TASK_STATUS = "UPDATE clienttasks SET status = :status WHERE taskId = :taskId AND clientId = :clientId";
+
+    private static final String GET_ACTIVE_CLIENT_TASK_FOR_RUN = "SELECT t.*  FROM tasks t " +
+            "JOIN clienttasks c " +
+            "ON  c.taskId = t.id " +
+            "WHERE c.clientId = :id AND c.status = 'In queue'";
+    private static final String GET_TASK_BY_ID = "SELECT t.*  FROM tasks t " +
+            "JOIN clienttasks c ON  c.taskId = t.id " +
+            "JOIN clients b ON b.id = clientId " +
+            "WHERE c.taskId = :taskId AND c.status = 'In queue'";
 
     private static final ClientTaskStatusInfoRowMapper clientDataListRowMapper = new ClientTaskStatusInfoRowMapper();
     private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
@@ -97,7 +105,13 @@ public class TaskDao extends AbstractDao {
     public List<TaskClientStatusInfo> getTasksForClient(Long id) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
-        return parameterJdbcTemplate.query(GET_TASKS_FOR_CLIENT, mapSource, taskDataDtoRowMapper);
+        return parameterJdbcTemplate.query(GET_CLIENT_TASKS_FOR_EDIT, mapSource, taskDataDtoRowMapper);
+    }
+
+    public List<TaskData> getActiveTasksByClientID(Long clientID) {
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
+                .addValue("id", clientID);
+        return parameterJdbcTemplate.query(GET_ACTIVE_CLIENT_TASK_FOR_RUN, taskDataListRowMapper);
     }
 
     public int addTaskForClient(Long idClient, Long idTask) {
@@ -120,6 +134,11 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.query(GET_CLIENTS_FOR_TASK, mapSource, clientDataListRowMapper);
     }
 
+    public TaskData getTaskById(Long taskId) {
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
+                .addValue("taskId", taskId);
+        return parameterJdbcTemplate.queryForObject(GET_TASK_BY_ID, mapSource, taskDataListRowMapper);
+    }
     public void updateStatus(ClientTaskStatusDto clientTaskStatusDto) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("taskId", clientTaskStatusDto.getClientTaskData().getTaskId())

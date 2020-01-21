@@ -2,6 +2,7 @@ package ru.vkr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.ClientTaskStatusInfo;
@@ -25,6 +26,7 @@ public class TaskService {
         this.taskDao = taskDao;
     }
 
+    @Transactional
     public void addTask(TaskData task) {
         taskDao.addTask(task);
     }
@@ -37,8 +39,13 @@ public class TaskService {
         return taskDao.getAllTasks();
     }
 
+    @Transactional
     public void updateStatus(ClientTaskStatusDto clientTaskDataDto) {
         taskDao.updateStatus(clientTaskDataDto);
+    }
+
+    public TaskData getTaskById(Long taskId) {
+        return taskDao.getTaskById(taskId);
     }
 
     public void deleteById(Long id) {
@@ -54,10 +61,17 @@ public class TaskService {
         return taskDao.getTasksForClient(id);
     }
 
+    public List<TaskData> getActiveTasksByClientID(Long id) {
+        return taskDao.getActiveTasksByClientID(id);
+    }
+
+    @Transactional
     public TaskData addTaskForClient(Long idClient, Long idTask) {
         taskDao.addTaskForClient(idClient, idTask);
         return taskDao.getTask(idTask);
     }
+
+    @Transactional
     public void deleteTaskForClient(SimpleClientTaskDataDto simpleClientTaskDataDto) {
         taskDao.deleteTaskForClient(simpleClientTaskDataDto);
     }

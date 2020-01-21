@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import ru.vkr.model.SessionData;
-import ru.vkr.service.auth.AuthorizationService;
+import ru.vkr.service.AuthorizationService;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;

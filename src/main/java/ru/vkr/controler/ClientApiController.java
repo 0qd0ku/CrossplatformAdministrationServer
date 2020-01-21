@@ -9,11 +9,11 @@ import ru.vkr.model.*;
 import ru.vkr.model.dto.ClientTaskStatusDto;
 import ru.vkr.model.dto.TaskPackDto;
 import ru.vkr.service.TaskService;
-import ru.vkr.service.auth.AuthorizationService;
+import ru.vkr.service.AuthorizationService;
 
 @Controller
 @RequestMapping("/api/client")
-public class ClientApiController {
+public class ClientApiController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(ClientApiController.class);
 
     private final AuthorizationService authorizationService;
@@ -33,21 +33,19 @@ public class ClientApiController {
         logger.debug("Get response: {}", sessionData);
         return sessionData;
     }
-//TODO fix this tonight
-//    @GetMapping("/tasks")
-//    @ResponseBody
-//    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long id) {
-//        logger.debug("Received request for get clients tasks");
-//        TaskPackDto taskPackDto = new TaskPackDto(taskService.getTasksForClient(id));
-//        logger.debug("Get response data: {}", taskPackDto);
-//        return taskPackDto;
-//    }
+    @GetMapping("/tasks")
+    @ResponseBody
+    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long id) {
+        logger.debug("Received request for get clients tasks");
+        TaskPackDto taskPackDto = new TaskPackDto(taskService.getActiveTasksByClientID(id));
+        logger.debug("Get response data: {}", taskPackDto);
+        return taskPackDto;
+    }
 
     @GetMapping("get-task")
     @ResponseBody
     public TaskData getTaskById(@RequestParam(name = "taskId", required = true) Long taskId) {
-        //TODO Добавить получение таски по ее id
-        return null;
+        return taskService.getTaskById(taskId);
     }
 
     @PostMapping("/task/status")

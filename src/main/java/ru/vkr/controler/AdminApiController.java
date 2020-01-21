@@ -13,7 +13,7 @@ import ru.vkr.model.*;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.service.ClientService;
 import ru.vkr.service.TaskService;
-import ru.vkr.service.auth.AuthorizationService;
+import ru.vkr.service.AuthorizationService;
 
 import java.util.List;
 import java.util.Objects;
