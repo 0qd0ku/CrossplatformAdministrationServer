@@ -15,6 +15,15 @@ public enum OS {
         return os;
     }
 
+    public static OS getOSByName (String name) {
+        for (OS os : OS.values()) {
+            if (os.os.equals(name)) {
+                return os;
+            }
+        }
+        throw new IllegalArgumentException("Cant find OS, by type: " + name);
+    }
+
     @Override
     public String toString() {
         return "OS{" +

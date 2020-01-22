@@ -40,12 +40,13 @@ public class AuthorizationService {
         if (CollectionUtils.isEmpty(result)) {
             throw new LoginDataNotFoundException(HttpStatus.NOT_FOUND, "Admin not found in DB");
         }
-        SessionData sessionData = authorizationDao.loadSessionDataByLoginId(result.get(0));
-        if (sessionData == null) {
-            sessionData = createSessionData(result.get(0), SessionData.SessionType.ADMIN);
+        List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(result.get(0));
+        if (CollectionUtils.isEmpty(sessionDataList)) {
+            SessionData sessionData = createSessionData(result.get(0), SessionData.SessionType.ADMIN);
             authorizationDao.addSessionData(sessionData);
             return sessionData;
         }
+        SessionData sessionData = sessionDataList.get(0);
         updateSessionData(sessionData.getToken());
         return sessionData;
     }
@@ -63,13 +64,13 @@ public class AuthorizationService {
                     " because he is blocked");
         }
         ClientData client = clientDataList.get(0);
-        SessionData sessionData = authorizationDao.loadSessionDataByLoginId(client.getId());
-        if (Objects.nonNull(sessionData)) {
+        List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(client.getId());
+        if (CollectionUtils.isNotEmpty(sessionDataList)) {
+            SessionData sessionData = sessionDataList.get(0);
             updateSessionData(sessionData.getToken());
             return sessionData;
         }
-        sessionData = createSessionData(client.getId(), SessionData.SessionType.CLIENT);
-        return sessionData;
+        return createSessionData(client.getId(), SessionData.SessionType.CLIENT);
     }
 
     private SessionData createSessionData(long clientId, SessionData.SessionType sessionType) {

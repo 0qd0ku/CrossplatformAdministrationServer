@@ -74,11 +74,11 @@ public class AuthorizationDao extends AbstractDao {
         return parameterJdbcTemplate.query(GET_SESSION_DATA_QUERY, mapSource, SESSION_MAPPER);
     }
 
-    public SessionData loadSessionDataByLoginId(Long id) {
+    public List<SessionData> loadSessionDataByLoginId(Long id) {
         logger.debug("Get session by loginId: {}", id);
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("clientId", id);
-        return parameterJdbcTemplate.query(GET_SESSION_BY_LOGINID, mapSource, SESSION_MAPPER).get(0);
+        return parameterJdbcTemplate.query(GET_SESSION_BY_LOGINID, mapSource, SESSION_MAPPER);
     }
 
     public void updateSessionData(String token) {
