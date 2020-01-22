@@ -9,17 +9,19 @@ import java.util.List;
  */
 public class TaskPackDto {
 
-    public TaskPackDto(List<TaskData> taskDatas) {
+
+    private List<Long> taskDatas;
+
+
+    public TaskPackDto(List<Long> taskDatas) {
         this.taskDatas = taskDatas;
     }
 
-    private List<TaskData> taskDatas;
-
-    public List<TaskData> getTaskDatas() {
+    public List<Long> getTaskDatas() {
         return taskDatas;
     }
 
-    public void setTaskDatas(List<TaskData> taskDatas) {
+    public void setTaskDatas(List<Long> taskDatas) {
         this.taskDatas = taskDatas;
     }
 

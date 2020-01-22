@@ -56,10 +56,13 @@ public class AuthorizationService {
     @Transactional
     public SessionData clientCheckIn(ClientData authData) {
         logger.debug("Start authorization by client: {}", authData);
-        ClientData client = clientService.getClient(authData.getHostname());
-        if (Objects.isNull(client)) {
-            throw new LoginDataNotFoundException(HttpStatus.NOT_FOUND, "Client not found in DB");
+        List<ClientData> clientDataList = clientService.getClient(authData.getHostname());
+        if (CollectionUtils.isEmpty(clientDataList)) {
+            clientService.addClient(authData);
+            throw new LoginDataNotFoundException(HttpStatus.NOT_FOUND, "Client tasks can't start work," +
+                    " because he is blocked");
         }
+        ClientData client = clientDataList.get(0);
         SessionData sessionData = authorizationDao.loadSessionDataByLoginId(client.getId());
         if (Objects.nonNull(sessionData)) {
             updateSessionData(sessionData.getToken());

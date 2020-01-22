@@ -15,6 +15,7 @@ public class ClientData {
     private OS os;
     private OSType osType;
     private String macAddr;
+    private boolean isBlocked;
 
     public ClientData() {
     }
@@ -71,6 +72,15 @@ public class ClientData {
         return this;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public ClientData setBlocked(boolean blocked) {
+        isBlocked = blocked;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ClientData{" +
@@ -79,6 +89,7 @@ public class ClientData {
                 ", os=" + os +
                 ", osType=" + osType +
                 ", macAddr='" + macAddr + '\'' +
+                ", isBlocked=" + isBlocked +
                 '}';
     }
 }

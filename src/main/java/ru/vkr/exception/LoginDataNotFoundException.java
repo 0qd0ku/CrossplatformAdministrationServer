@@ -5,6 +5,6 @@ import org.springframework.web.client.HttpServerErrorException;
 
 public class LoginDataNotFoundException extends HttpServerErrorException {
     public LoginDataNotFoundException(HttpStatus statusCode, String message) {
-        super(HttpStatus.UNAUTHORIZED, message);
+        super(statusCode, message);
     }
 }

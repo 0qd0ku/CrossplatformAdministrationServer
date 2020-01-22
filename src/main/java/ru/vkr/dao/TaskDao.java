@@ -53,6 +53,9 @@ public class TaskDao extends AbstractDao {
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskData.class);
 
+    private static final RowMapper<Long> taskIdListRowMapper = JdbcTemplateMapperFactory.newInstance().
+            ignorePropertyNotFound().newRowMapper(Long.class);
+
     private static final RowMapper<ClientTaskStatusDto> clientTaskRowMapper = JdbcTemplateMapperFactory.newInstance()
             .addColumnDefinition("status",
                     FieldMapperColumnDefinition.customGetter((Getter<ResultSet, TaskStatus>) rs ->
@@ -108,10 +111,10 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.query(GET_CLIENT_TASKS_FOR_EDIT, mapSource, taskDataDtoRowMapper);
     }
 
-    public List<TaskData> getActiveTasksByClientID(Long clientID) {
+    public List<Long> getActiveTasksByClientID(Long clientID) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", clientID);
-        return parameterJdbcTemplate.query(GET_ACTIVE_CLIENT_TASK_FOR_RUN, taskDataListRowMapper);
+        return parameterJdbcTemplate.query(GET_ACTIVE_CLIENT_TASK_FOR_RUN, taskIdListRowMapper);
     }
 
     public int addTaskForClient(Long idClient, Long idTask) {

@@ -24,14 +24,13 @@ public class ClientService {
         this.clientDao = clientDao;
     }
 
-    public ClientData addClient(String token, String hostname, OS os, OSType osType, String macAddr)
-    {
-        clientDao.addClient(new ClientData(hostname, os, osType, macAddr));
-        return clientDao.getClient(hostname);
+    public void addClient(ClientData clientData) {
+        clientDao.addClient(clientData);
     }
 
-    public ClientData getClient(String hostname) {
+    public List<ClientData> getClient(String hostname) {
         return clientDao.getClient(hostname);
+
     }
 
     public ClientData getClient(Long id) {
@@ -40,7 +39,7 @@ public class ClientService {
 
     public ClientData updateClient(ClientData client) {
         clientDao.updateClient(client);
-        return clientDao.getClient(client.getHostname());
+        return client;
     }
 
     public List<ClientData> getAllClients()

@@ -41,10 +41,10 @@ public class ClientDao extends AbstractDao{
         return parameterJdbcTemplate.query(GET_CLIENT_BY_ID, mapSource, clientDataListRowMapper).get(0);
     }
 
-    public ClientData getClient(String hostname) {
+    public List<ClientData> getClient(String hostname) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("hostname", hostname);
-        return parameterJdbcTemplate.queryForObject(GET_CLIENT_QUERY, mapSource, clientDataListRowMapper);
+        return parameterJdbcTemplate.query(GET_CLIENT_QUERY, mapSource, clientDataListRowMapper);
     }
 
 

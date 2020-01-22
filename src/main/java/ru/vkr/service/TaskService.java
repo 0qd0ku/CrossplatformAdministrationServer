@@ -61,7 +61,7 @@ public class TaskService {
         return taskDao.getTasksForClient(id);
     }
 
-    public List<TaskData> getActiveTasksByClientID(Long id) {
+    public List<Long> getActiveTasksByClientID(Long id) {
         return taskDao.getActiveTasksByClientID(id);
     }
 

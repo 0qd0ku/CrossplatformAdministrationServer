@@ -42,6 +42,7 @@ public class ClientApiController extends BaseController {
         return taskPackDto;
     }
 
+
     @GetMapping("get-task")
     @ResponseBody
     public TaskData getTaskById(@RequestParam(name = "taskId", required = true) Long taskId) {
