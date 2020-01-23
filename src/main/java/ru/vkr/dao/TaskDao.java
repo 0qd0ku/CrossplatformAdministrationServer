@@ -39,7 +39,7 @@ public class TaskDao extends AbstractDao {
     private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE FROM clienttasks WHERE taskId = :taskId AND clientId = :clientId";
     private static final String UPDATE_TASK_STATUS = "UPDATE clienttasks SET status = :status WHERE taskId = :taskId AND clientId = :clientId";
 
-    private static final String GET_ACTIVE_CLIENT_TASK_FOR_RUN = "SELECT t.*  FROM tasks t " +
+    private static final String GET_ACTIVE_CLIENT_TASK_FOR_RUN = "SELECT t.id  FROM tasks t " +
             "JOIN clienttasks c " +
             "ON  c.taskId = t.id " +
             "WHERE c.clientId = :id AND c.status = 'In queue'";
@@ -52,9 +52,8 @@ public class TaskDao extends AbstractDao {
     private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
             ignorePropertyNotFound().newRowMapper(TaskData.class);
-
-    private static final RowMapper<Long> taskIdListRowMapper = JdbcTemplateMapperFactory.newInstance().
-            ignorePropertyNotFound().newRowMapper(Long.class);
+    private final RowMapper<Long> longRowMapper = JdbcTemplateMapperFactory.newInstance()
+            .ignorePropertyNotFound().newRowMapper(Long.class);
 
     private static final RowMapper<ClientTaskStatusDto> clientTaskRowMapper = JdbcTemplateMapperFactory.newInstance()
             .addColumnDefinition("status",
@@ -114,7 +113,7 @@ public class TaskDao extends AbstractDao {
     public List<Long> getActiveTasksByClientID(Long clientID) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", clientID);
-        return parameterJdbcTemplate.query(GET_ACTIVE_CLIENT_TASK_FOR_RUN, taskIdListRowMapper);
+        return parameterJdbcTemplate.query(GET_ACTIVE_CLIENT_TASK_FOR_RUN, mapSource, longRowMapper);
     }
 
     public int addTaskForClient(Long idClient, Long idTask) {
@@ -137,10 +136,10 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.query(GET_CLIENTS_FOR_TASK, mapSource, clientDataListRowMapper);
     }
 
-    public TaskData getTaskById(Long taskId) {
+    public List<TaskData> getTaskById(Long taskId) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("taskId", taskId);
-        return parameterJdbcTemplate.queryForObject(GET_TASK_BY_ID, mapSource, taskDataListRowMapper);
+        return parameterJdbcTemplate.query(GET_TASK_BY_ID, mapSource, taskDataListRowMapper);
     }
     public void updateStatus(ClientTaskStatusDto clientTaskStatusDto) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()

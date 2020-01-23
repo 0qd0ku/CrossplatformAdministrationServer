@@ -35,9 +35,9 @@ public class ClientApiController extends BaseController {
     }
     @GetMapping("/tasks")
     @ResponseBody
-    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long id) {
+    public TaskPackDto getClientTaskList(@RequestParam(name = "clientId", required = true) Long clientId) {
         logger.debug("Received request for get clients tasks");
-        TaskPackDto taskPackDto = new TaskPackDto(taskService.getActiveTasksByClientID(id));
+        TaskPackDto taskPackDto = new TaskPackDto(taskService.getActiveTasksByClientID(clientId));
         logger.debug("Get response data: {}", taskPackDto);
         return taskPackDto;
     }
@@ -54,4 +54,6 @@ public class ClientApiController extends BaseController {
         logger.debug("Received request for toggle status: {}", clientTaskStatusDto);
         taskService.updateStatus(clientTaskStatusDto);
     }
+
+    //TODO нужно сделать апдейт статуса таски после выполнения и на клиенте тоже
 }

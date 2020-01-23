@@ -1,5 +1,6 @@
 package ru.vkr.service;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,11 @@ public class TaskService {
     }
 
     public TaskData getTaskById(Long taskId) {
-        return taskDao.getTaskById(taskId);
+        List<TaskData> taskDataList = taskDao.getTaskById(taskId);
+        if (CollectionUtils.isNotEmpty(taskDataList)) {
+            return taskDataList.get(0);
+        }
+        return null;
     }
 
     public void deleteById(Long id) {

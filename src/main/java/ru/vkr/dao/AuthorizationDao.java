@@ -45,7 +45,7 @@ public class AuthorizationDao extends AbstractDao {
             .ignorePropertyNotFound().newRowMapper(SessionData.class);
 
 
-    /**
+    /**dttp_exp
      * Метод лезет в базу и ищет там пользователя с таким логин/паролем
      * @param adminAuthorizationData данные для авторизации
      * @return логин пользователя есть с такимии данными авторизации он  был найден в базе
@@ -62,8 +62,8 @@ public class AuthorizationDao extends AbstractDao {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("token", sessionData.getToken())
                 .addValue("clientId", sessionData.getClientId())
-                .addValue("dttp_exp", sessionData.getExpDate())
-                .addValue("sessionType", sessionData.getSessionType());
+                .addValue("dttm_exp", spotDate())
+                .addValue("sessionType", sessionData.getSessionType().getCode());
         parameterJdbcTemplate.update(ADD_AUTH_QUERY, mapSource);
     }
 

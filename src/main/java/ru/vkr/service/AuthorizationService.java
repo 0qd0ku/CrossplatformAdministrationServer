@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vkr.dao.AuthorizationDao;
-import ru.vkr.exception.LoginDataNotFoundException;
+import ru.vkr.exception.ClientAuthorizationException;
 import ru.vkr.model.AdminAuthorizationData;
 import ru.vkr.model.ClientData;
 import ru.vkr.model.SessionData;
@@ -16,7 +16,6 @@ import ru.vkr.util.TokenGenerator;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class AuthorizationService {
@@ -38,7 +37,7 @@ public class AuthorizationService {
         logger.debug("Start authorization by admin console: {}", authData);
         List<Long> result = authorizationDao.authorization(authData);
         if (CollectionUtils.isEmpty(result)) {
-            throw new LoginDataNotFoundException(HttpStatus.NOT_FOUND, "Admin not found in DB");
+            throw new ClientAuthorizationException(HttpStatus.NOT_FOUND, "Admin not found in DB");
         }
         List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(result.get(0));
         if (CollectionUtils.isEmpty(sessionDataList)) {
@@ -60,17 +59,24 @@ public class AuthorizationService {
         List<ClientData> clientDataList = clientService.getClient(authData.getHostname());
         if (CollectionUtils.isEmpty(clientDataList)) {
             clientService.addClient(authData);
-            throw new LoginDataNotFoundException(HttpStatus.NOT_FOUND, "Client tasks can't start work," +
-                    " because he is blocked");
+            throw new ClientAuthorizationException(HttpStatus.UNAUTHORIZED, "Client tasks can't start work," +
+                    " because he is unathorized");
         }
         ClientData client = clientDataList.get(0);
-        List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(client.getId());
-        if (CollectionUtils.isNotEmpty(sessionDataList)) {
-            SessionData sessionData = sessionDataList.get(0);
-            updateSessionData(sessionData.getToken());
-            return sessionData;
+        if (client.isBlocked()) {
+            throw new ClientAuthorizationException(HttpStatus.NOT_FOUND, "Client tasks can't start work," +
+                    " because he is blocked");
         }
-        return createSessionData(client.getId(), SessionData.SessionType.CLIENT);
+        List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(client.getId());
+        SessionData sessionData;
+        if (CollectionUtils.isNotEmpty(sessionDataList)) {
+            sessionData = sessionDataList.get(0);
+            updateSessionData(sessionData.getToken());
+        } else {
+           sessionData =  createSessionData(client.getId(), SessionData.SessionType.CLIENT);
+           authorizationDao.addSessionData(sessionData);
+        }
+        return sessionData;
     }
 
     private SessionData createSessionData(long clientId, SessionData.SessionType sessionType) {

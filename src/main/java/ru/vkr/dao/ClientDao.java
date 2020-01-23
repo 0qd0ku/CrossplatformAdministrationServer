@@ -28,6 +28,9 @@ public class ClientDao extends AbstractDao{
     private static final String DELETE_CLIENT_BY_HOSTNAME = "DELETE clients WHERE hostname = ?";
 
     private static final RowMapper<ClientData> clientDataListRowMapper = JdbcTemplateMapperFactory.newInstance()
+            .addColumnDefinition("blocked",
+                    FieldMapperColumnDefinition.customGetter((Getter<ResultSet, Boolean>) rs ->
+                            rs.getInt("blocked") == 1))
             .addColumnDefinition("os",
                     FieldMapperColumnDefinition.customGetter((Getter<ResultSet, OS>) rs ->
                             OS.getOSByName(rs.getString("os"))))
@@ -42,7 +45,8 @@ public class ClientDao extends AbstractDao{
                 .addValue("hostName", client.getHostname())
                 .addValue("os", client.getOs().getValue())
                 .addValue("osType", client.getOsType().getValue())
-                .addValue("macAddr", client.getMacAddr());
+                .addValue("macAddr", client.getMacAddr())
+                .addValue("isBlocked", client.isBlocked());
         return parameterJdbcTemplate.update(ADD_CLIENT_QUERY, mapSource);
     }
 

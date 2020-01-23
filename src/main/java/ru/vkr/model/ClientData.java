@@ -15,16 +15,10 @@ public class ClientData {
     private OS os;
     private OSType osType;
     private String macAddr;
-    private boolean isBlocked;
+    private Boolean blocked;
 
     public ClientData() {
-    }
-
-    public ClientData(String hostname, OS os, OSType osType, String macAddr) {
-        this.hostname = hostname;
-        this.os = os;
-        this.osType = osType;
-        this.macAddr = macAddr;
+        this.blocked = true;
     }
 
     public Long getId() {
@@ -72,12 +66,12 @@ public class ClientData {
         return this;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
+    public Boolean isBlocked() {
+        return blocked;
     }
 
-    public ClientData setBlocked(boolean blocked) {
-        isBlocked = blocked;
+    public ClientData setBlocked(Boolean blocked) {
+        this.blocked = blocked;
         return this;
     }
 
@@ -89,7 +83,7 @@ public class ClientData {
                 ", os=" + os +
                 ", osType=" + osType +
                 ", macAddr='" + macAddr + '\'' +
-                ", isBlocked=" + isBlocked +
+                ", isBlocked=" + blocked +
                 '}';
     }
 }
