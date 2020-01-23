@@ -63,7 +63,7 @@ public class AuthorizationService {
                     " because he is unathorized");
         }
         ClientData client = clientDataList.get(0);
-        if (client.isBlocked()) {
+        if (client.getBlocked()) {
             throw new ClientAuthorizationException(HttpStatus.NOT_FOUND, "Client tasks can't start work," +
                     " because he is blocked");
         }

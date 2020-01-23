@@ -66,7 +66,7 @@ public class ClientData {
         return this;
     }
 
-    public Boolean isBlocked() {
+    public Boolean getBlocked() {
         return blocked;
     }
 

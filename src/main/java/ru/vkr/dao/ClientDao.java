@@ -46,7 +46,7 @@ public class ClientDao extends AbstractDao{
                 .addValue("os", client.getOs().getValue())
                 .addValue("osType", client.getOsType().getValue())
                 .addValue("macAddr", client.getMacAddr())
-                .addValue("isBlocked", client.isBlocked());
+                .addValue("isBlocked", client.getBlocked());
         return parameterJdbcTemplate.update(ADD_CLIENT_QUERY, mapSource);
     }
 
