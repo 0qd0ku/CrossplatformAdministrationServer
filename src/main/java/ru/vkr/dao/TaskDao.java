@@ -47,6 +47,7 @@ public class TaskDao extends AbstractDao {
             "JOIN clienttasks c " +
             "ON  c.taskId = t.id " +
             "WHERE c.clientId = :id AND c.status = 'PREPARING'";
+
     private static final String GET_TASK_BY_ID = "SELECT t.*  FROM tasks t " +
             "JOIN clienttasks c ON  c.taskId = t.id " +
             "JOIN clients b ON b.id = clientId " +
@@ -55,6 +56,7 @@ public class TaskDao extends AbstractDao {
     private static final ClientTaskStatusInfoRowMapper clientDataListRowMapper = new ClientTaskStatusInfoRowMapper();
     private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance()
+            .addAlias("taskType", "taskProcessType")
             .addColumnDefinition("taskType",
                     FieldMapperColumnDefinition.customGetter((Getter<ResultSet, TaskProcessType>) rs ->
                             TaskProcessType.getTaskProcessTypeByName(rs.getString("taskType"))))
@@ -64,7 +66,7 @@ public class TaskDao extends AbstractDao {
             .addColumnDefinition("osType",
                     FieldMapperColumnDefinition.customGetter((Getter<ResultSet, OSType>) rs ->
                             OSType.getOsTypeByName(rs.getString("osType"))))
-            .ignorePropertyNotFound().newRowMapper(TaskData.class);
+            .newRowMapper(TaskData.class);
 
     private final RowMapper<Long> longRowMapper = JdbcTemplateMapperFactory.newInstance()
             .ignorePropertyNotFound().newRowMapper(Long.class);
