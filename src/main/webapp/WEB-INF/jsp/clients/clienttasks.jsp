@@ -6,8 +6,8 @@
 <head>
     <title>Задачи для клиента ${clientId} </title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript"><%@include file="../js/task/TaskForClient.js"%>
-    </script>
+    <script type="text/javascript"><%@include file="../js/task/TaskForClient.js"%></script>
+    <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
 </head>
 <body>
 <div>
@@ -28,10 +28,10 @@
             <tr>
                 <td style="border: 1px solid black;">${task.taskData.id}</td>
                 <td style="border: 1px solid black;">${task.taskData.name}</td>
-                <td style="border: 1px solid black;">${task.taskData.taskProcessType.value}</td>
+                <td style="border: 1px solid black;">${task.taskData.taskProcessType.type}</td>
                 <td style="border: 1px solid black;">${task.taskData.version}</td>
-                <td style="border: 1px solid black;">${task.taskData.os.value}</td>
-                <td style="border: 1px solid black;">${task.taskData.osType.value}</td>
+                <td style="border: 1px solid black;">${task.taskData.os.os}</td>
+                <td style="border: 1px solid black;">${task.taskData.osType.osType}</td>
                 <td style="border: 1px solid black;">${task.taskData.pathToRunFile}</td>
                 <td style="border: 1px solid black; text-align: center">${task.taskData.torrentFile != null ? "<img src=\"https://iconizer.net/files/Puck_icons_pack_II/thumb/128/uTorrent.png\" width=\"30\" height=\"30\">" : ""}</td>
                 <td style="border: 1px solid black;">${task.status}</td>

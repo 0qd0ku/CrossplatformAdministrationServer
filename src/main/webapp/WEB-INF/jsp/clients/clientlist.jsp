@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>Управления задачами</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
 </head>
 <body>
 <div>
@@ -23,8 +25,8 @@
             <tr>
                 <td style="border: 1px solid black;">${client.id}</td>
                 <td style="border: 1px solid black;">${client.hostname}</td>
-                <td style="border: 1px solid black;">${client.os.value}</td>
-                <td style="border: 1px solid black;">${client.osType.value}</td>
+                <td style="border: 1px solid black;">${client.os.os}</td>
+                <td style="border: 1px solid black;">${client.osType.osType}</td>
                 <td style="border: 1px solid black;">${client.macAddr}</td>
                 <td style="border: 1px solid black;"><label>
                     <input type="checkbox" name="id" value=${client.blocked}/>

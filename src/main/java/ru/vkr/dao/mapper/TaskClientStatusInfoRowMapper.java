@@ -23,10 +23,11 @@ public class TaskClientStatusInfoRowMapper implements RowMapper<TasktStatusInfo>
         TaskData taskData =  new TaskData();
         taskData.setId(resultSet.getLong("id"));
         taskData.setName(resultSet.getString("name"));
-        taskData.setTaskProcessType(TaskProcessType.valueOf(resultSet.getString("taskType")));
+        taskData.setTaskProcessType(TaskProcessType
+                .getTaskProcessTypeByName(resultSet.getString("taskType")));
         taskData.setVersion(resultSet.getString("version"));
-        taskData.setOs(OS.valueOf(resultSet.getString("os")));
-        taskData.setOsType(OSType.valueOf(resultSet.getString("osType")));
+        taskData.setOs(OS.getOSByName(resultSet.getString("os")));
+        taskData.setOsType(OSType.getOsTypeByName(resultSet.getString("osType")));
         taskData.setPathToRunFile(resultSet.getString("pathToRunFile"));
         taskData.setTorrentFile(resultSet.getString("torrentFile"));
         return taskData;

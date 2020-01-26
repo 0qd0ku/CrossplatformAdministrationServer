@@ -4,8 +4,9 @@
 <html>
 <head>
     <title>Назначение задачи клиенту</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript"><%@include file="../js/task/TaskForClient.js"%> </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
 </head>
 <body>
 <div>

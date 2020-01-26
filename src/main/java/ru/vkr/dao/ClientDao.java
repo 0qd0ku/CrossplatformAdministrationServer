@@ -43,8 +43,8 @@ public class ClientDao extends AbstractDao{
     public int addClient(ClientData client) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("hostName", client.getHostname())
-                .addValue("os", client.getOs().getValue())
-                .addValue("osType", client.getOsType().getValue())
+                .addValue("os", client.getOs().getOs())
+                .addValue("osType", client.getOsType().getOsType())
                 .addValue("macAddr", client.getMacAddr())
                 .addValue("isBlocked", client.getBlocked());
         return parameterJdbcTemplate.update(ADD_CLIENT_QUERY, mapSource);
@@ -83,8 +83,8 @@ public class ClientDao extends AbstractDao{
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", client.getId())
                 .addValue("hostname", client.getHostname())
-                .addValue("os", client.getOs().getValue())
-                .addValue("osType", client.getOsType().getValue())
+                .addValue("os", client.getOs().getOs())
+                .addValue("osType", client.getOsType().getOsType())
                 .addValue("macAddr", client.getMacAddr());
         return parameterJdbcTemplate.update(UPDATE_CLIENT_BY_ID, mapSource);
 

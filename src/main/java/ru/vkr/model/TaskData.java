@@ -103,15 +103,15 @@ public class TaskData {
                 getName().equals(that.getName()) &&
                 getTaskProcessType() == that.getTaskProcessType() &&
                 getVersion().equals(that.getVersion()) &&
-                getOs().getValue() == that.getOs().getValue() &&
-                getOsType().getValue() == that.getOsType().getValue() &&
+                getOs().getOs() == that.getOs().getOs() &&
+                getOsType().getOsType() == that.getOsType().getOsType() &&
                 getPathToRunFile().equals(that.getPathToRunFile()) &&
                 getTorrentFile().equals(that.getTorrentFile());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, getName(), getTaskProcessType(), getVersion(), getOs().getValue(), getOsType().getValue(), getPathToRunFile(), getTorrentFile());
+        return Objects.hash(id, getName(), getTaskProcessType(), getVersion(), getOs().getOs(), getOsType().getOsType(), getPathToRunFile(), getTorrentFile());
     }
 
     @Override
@@ -119,10 +119,10 @@ public class TaskData {
         return "TaskDataDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", taskType=" + taskProcessType +
+                ", taskProcessType=" + taskProcessType +
                 ", version='" + version + '\'' +
-                ", os=" + os.getValue() +
-                ", osType=" + osType.getValue() +
+                ", os=" + os.getOs() +
+                ", osType=" + osType.getOsType() +
                 ", pathToRunFile='" + pathToRunFile + '\'' +
                 ", torrentFile=" + torrentFile +
                 '}';

@@ -3,7 +3,7 @@ var edittask = function () {
 		var authJsonObject = {
 			"id": document.getElementById("id").value,
 			"name": document.getElementById("name").value,
-			"taskType": document.getElementById("taskType").value,
+			"taskProcessType": document.getElementById("taskProcessType").value,
 			"version": document.getElementById("version").value,
 			"os": document.getElementById("os").value,
 			"osType": document.getElementById("osType").value,

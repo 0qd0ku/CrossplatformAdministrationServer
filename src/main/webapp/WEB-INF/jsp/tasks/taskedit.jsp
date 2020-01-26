@@ -4,9 +4,9 @@
 <html>
 <head>
     <title>Редактировать задачу</title>
+    <script type="text/javascript"><%@include file="../js/task/edit-task.js"%></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript"><%@include file="../js/task/edit-task.js"%>
-    </script>
+    <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
 </head>
 <body>
 <table>

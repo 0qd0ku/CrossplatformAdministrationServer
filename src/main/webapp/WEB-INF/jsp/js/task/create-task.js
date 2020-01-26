@@ -2,7 +2,7 @@ var createtask = function () {
     var sendToServer = function(result) {
         var authJsonObject = {
             "name": document.getElementById("name").value,
-            "taskType": document.getElementById("taskType").value,
+            "taskProcessType": document.getElementById("taskProcessType").value,
             "version": document.getElementById("version").value,
             "os": document.getElementById("os").value,
             "osType": document.getElementById("osType").value,

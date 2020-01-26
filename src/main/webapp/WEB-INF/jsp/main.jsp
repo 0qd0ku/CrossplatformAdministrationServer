@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Главная страница</title>
+    <script type="text/javascript"><%@include file="./js/coockieWorker.js"%> </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
 <table width="100%" height="100%">

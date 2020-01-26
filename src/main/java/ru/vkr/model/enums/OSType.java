@@ -1,5 +1,7 @@
 package ru.vkr.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum OSType {
     X86("X86"),
     X64("X64");
@@ -9,13 +11,14 @@ public enum OSType {
         this.osType = osType;
     }
 
-    public String getValue() {
+    public String getOsType() {
         return osType;
     }
 
+    @JsonCreator
     public static OSType getOsTypeByName(String name) {
         for (OSType osType : OSType.values()) {
-            if (osType.osType.equals(name)) {
+            if (osType.osType.equalsIgnoreCase(name)) {
                 return osType;
             }
         }

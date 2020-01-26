@@ -1,12 +1,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="co" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Создать задачу</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript"><%@include file="../js/task/create-task.js"%>
-    </script>
+    <script type="text/javascript"><%@include file="../js/task/create-task.js"%></script>
+    <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
 </head>
 <body>
 <table>

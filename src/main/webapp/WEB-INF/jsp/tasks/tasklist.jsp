@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>Управления задачами</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
 </head>
 <body>
 <div>
@@ -25,10 +27,10 @@
                     <tr>
                         <td style="border: 1px solid black;">${task.id}</td>
                         <td style="border: 1px solid black;">${task.name}</td>
-                        <td style="border: 1px solid black;">${task.taskProcessType.value}</td>
+                        <td style="border: 1px solid black;">${task.taskProcessType.type}</td>
                         <td style="border: 1px solid black;">${task.version}</td>
-                        <td style="border: 1px solid black;">${task.os.value}</td>
-                        <td style="border: 1px solid black;">${task.osType.value}</td>
+                        <td style="border: 1px solid black;">${task.os.os}</td>
+                        <td style="border: 1px solid black;">${task.osType.osType}</td>
                         <td style="border: 1px solid black;">${task.pathToRunFile}</td>
                         <td style="border: 1px solid black; text-align: center">${task.torrentFile != null ? "<img src=\"https://iconizer.net/files/Puck_icons_pack_II/thumb/128/uTorrent.png\" width=\"30\" height=\"30\">" : ""}</td>
                         <td style="border: 1px solid black;"><spring:form method="POST" action="delete-task"><button name="id" value="${task.id}">Удалить</button></spring:form></td>

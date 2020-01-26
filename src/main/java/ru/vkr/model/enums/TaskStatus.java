@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TaskStatus {
-    NEW("New"),
-    PREPARING("Preparing"),
-    IN_QUEUE("In queue"),
-    DOWNLOADING("Downloading"),
-    ERROR_INSTALLING( "Error installing"),
-    INSTALLING("Installing");
+    NEW("NEW"),
+    PREPARING("PREPARING"),
+    IN_QUEUE("IN QUEUE"),
+    DOWNLOADING("DOWNLOADING"),
+    ERROR_INSTALLING( "ERROR INSTALLING"),
+    INSTALLING("INSTALLING");
 
     private final String status;
 
@@ -25,7 +25,7 @@ public enum TaskStatus {
     @JsonCreator
     public static TaskStatus getTaskStatusByName(String name) {
         for (TaskStatus status : TaskStatus.values()) {
-            if (status.status.equals(name)) {
+            if (status.status.equalsIgnoreCase(name)) {
                 return status;
             }
         }

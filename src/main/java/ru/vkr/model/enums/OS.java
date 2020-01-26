@@ -1,9 +1,12 @@
 package ru.vkr.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum OS {
-    WINDOWS("Windows"),
-    LINUX("Linux"),
-    MACOS("MacOS");
+    WINDOWS("WINDOWS"),
+    LINUX("LINUX"),
+    MACOS("MACOS");
 
     private final String os;
 
@@ -11,13 +14,15 @@ public enum OS {
         this.os = os;
     }
 
-    public String getValue() {
+    @JsonValue
+    public String getOs() {
         return os;
     }
 
+    @JsonCreator
     public static OS getOSByName (String name) {
         for (OS os : OS.values()) {
-            if (os.os.equals(name)) {
+            if (os.os.equalsIgnoreCase(name)) {
                 return os;
             }
         }

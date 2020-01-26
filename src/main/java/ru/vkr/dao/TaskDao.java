@@ -13,6 +13,9 @@ import ru.vkr.model.TasktStatusInfo;
 import ru.vkr.model.dto.ClientTaskStatusDto;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
+import ru.vkr.model.enums.OS;
+import ru.vkr.model.enums.OSType;
+import ru.vkr.model.enums.TaskProcessType;
 import ru.vkr.model.enums.TaskStatus;
 
 import java.sql.ResultSet;
@@ -35,7 +38,8 @@ public class TaskDao extends AbstractDao {
             "JOIN clienttasks t " +
             "ON  t.clientId = c.id " +
             "WHERE t.taskId = :id";
-    private static final String ADD_TASK_TO_CLIENT_BY_ID = "INSERT INTO clienttasks(taskId, clientId) VALUES (:taskId, :clientId)";
+    private static final String ADD_TASK_TO_CLIENT_BY_ID = "INSERT INTO clienttasks(taskId, clientId, status) " +
+            "VALUES (:taskId, :clientId, :status)";
     private static final String DELETE_TASK_TO_CLIENT_BY_ID = "DELETE FROM clienttasks WHERE taskId = :taskId AND clientId = :clientId";
     private static final String UPDATE_TASK_STATUS = "UPDATE clienttasks SET status = :status WHERE taskId = :taskId AND clientId = :clientId";
 
@@ -50,8 +54,18 @@ public class TaskDao extends AbstractDao {
 
     private static final ClientTaskStatusInfoRowMapper clientDataListRowMapper = new ClientTaskStatusInfoRowMapper();
     private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
-    private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance().
-            ignorePropertyNotFound().newRowMapper(TaskData.class);
+    private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance()
+            .addColumnDefinition("taskType",
+                    FieldMapperColumnDefinition.customGetter((Getter<ResultSet, TaskProcessType>) rs ->
+                            TaskProcessType.valueOf(rs.getString("taskType"))))
+            .addColumnDefinition("os",
+                    FieldMapperColumnDefinition.customGetter((Getter<ResultSet, OS>) rs ->
+                            OS.getOSByName(rs.getString("os"))))
+            .addColumnDefinition("osType",
+                    FieldMapperColumnDefinition.customGetter((Getter<ResultSet, OSType>) rs ->
+                            OSType.getOsTypeByName(rs.getString("osType"))))
+            .ignorePropertyNotFound().newRowMapper(TaskData.class);
+
     private final RowMapper<Long> longRowMapper = JdbcTemplateMapperFactory.newInstance()
             .ignorePropertyNotFound().newRowMapper(Long.class);
 
@@ -64,10 +78,10 @@ public class TaskDao extends AbstractDao {
     public int addTask(TaskData task) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("name", task.getName())
-                .addValue("taskType", task.getTaskProcessType().name())
+                .addValue("taskType", task.getTaskProcessType().getType())
                 .addValue("version", task.getVersion())
-                .addValue("os", task.getOs().name())
-                .addValue("osType", task.getOsType().name())
+                .addValue("os", task.getOs().getOs())
+                .addValue("osType", task.getOsType().getOsType())
                 .addValue("pathToRunFile", task.getPathToRunFile())
                 .addValue("torrentFile", task.getTorrentFile());
 
@@ -119,7 +133,8 @@ public class TaskDao extends AbstractDao {
     public int addTaskForClient(Long idClient, Long idTask) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("clientId", idClient)
-                .addValue("taskId", idTask);
+                .addValue("taskId", idTask)
+                .addValue("status", TaskStatus.PREPARING.getStatus());
         return parameterJdbcTemplate.update(ADD_TASK_TO_CLIENT_BY_ID, mapSource);
     }
 

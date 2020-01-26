@@ -24,8 +24,8 @@ public class ClientTaskStatusInfoRowMapper implements RowMapper<ClientTaskStatus
         return new ClientData()
                 .setId(resultSet.getLong("id"))
                 .setHostname(resultSet.getString("hostName"))
-                .setOs(OS.valueOf(resultSet.getString("os")))
-                .setOsType(OSType.valueOf(resultSet.getString("osType")))
+                .setOs(OS.getOSByName(resultSet.getString("os")))
+                .setOsType(OSType.getOsTypeByName(resultSet.getString("osType")))
                 .setMacAddr(resultSet.getString("macAddr"));
     }
 }

@@ -46,10 +46,7 @@ public class ServletConfig implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        if (urlsNotRequiringAuth.stream().anyMatch(url -> request.getRequestURI().startsWith(url))) {
-            // не использовать авторизацию для заданных URL
-            LOGGER.debug("skipped auth for URL {}", request.getRequestURI());
-            filterChain.doFilter(request, servletResponse);
+        if (checkRequestSkipedUrl(request, servletResponse, filterChain)) {
             return;
         }
         String authToken = request.getHeader(AUTH_HEADER_NAME);
@@ -91,6 +88,16 @@ public class ServletConfig implements Filter {
             return;
         }
         filterChain.doFilter(request, servletResponse);
+    }
+
+    private boolean checkRequestSkipedUrl(HttpServletRequest request, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        boolean findUrlSkiped = urlsNotRequiringAuth.stream().anyMatch(url -> request.getRequestURI().startsWith(url));
+            // не использовать авторизацию для заданных URL
+        if (findUrlSkiped) {
+            LOGGER.debug("skipped auth for URL {}", request.getRequestURI());
+            filterChain.doFilter(request, servletResponse);
+        }
+            return findUrlSkiped;
     }
 
     private void sendErrorResponse(HttpServletResponse response,
