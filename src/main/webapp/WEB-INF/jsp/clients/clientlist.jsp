@@ -28,9 +28,9 @@
                 <td style="border: 1px solid black;">${client.os.os}</td>
                 <td style="border: 1px solid black;">${client.osType.osType}</td>
                 <td style="border: 1px solid black;">${client.macAddr}</td>
-                <td style="border: 1px solid black;"><label>
-                    <input type="checkbox" name="id" value=${client.blocked}/>
-                </label></td>
+                <td style="border: 1px solid black;">
+                    <input type="checkbox" name="blocked" ${client.blocked ? "checked" : ""} value=${client.blocked}/>
+                </td>
                 <td style="border: 1px solid black;"><spring:form method="POST" action="delete-client"><button name="id" value="${client.id}">Удалить</button></spring:form></td>
                 <td style="border: 1px solid black;"><spring:form method="GET"  action="client-tasks"><button name="clientId" value="${client.id}">Список задач</button></spring:form></td>
                 <td style="border: 1px solid black;"><spring:form method="GET"  action="add-task-to-client-page"><button name="clientId" value="${client.id}">Добавить задачу</button></spring:form></td>

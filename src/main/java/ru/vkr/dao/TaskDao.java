@@ -57,7 +57,7 @@ public class TaskDao extends AbstractDao {
     private static final RowMapper<TaskData> taskDataListRowMapper = JdbcTemplateMapperFactory.newInstance()
             .addColumnDefinition("taskType",
                     FieldMapperColumnDefinition.customGetter((Getter<ResultSet, TaskProcessType>) rs ->
-                            TaskProcessType.valueOf(rs.getString("taskType"))))
+                            TaskProcessType.getTaskProcessTypeByName(rs.getString("taskType"))))
             .addColumnDefinition("os",
                     FieldMapperColumnDefinition.customGetter((Getter<ResultSet, OS>) rs ->
                             OS.getOSByName(rs.getString("os"))))
