@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.vkr.config.AuthHolder;
 import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientTaskStatusInfo;
 import ru.vkr.model.TaskData;
@@ -48,6 +49,10 @@ public class TaskService {
     public TaskData getTaskById(Long taskId) {
         List<TaskData> taskDataList = taskDao.getTaskById(taskId);
         if (CollectionUtils.isNotEmpty(taskDataList)) {
+            taskDataList.forEach(taskData -> {
+                ClientTaskStatusDto clientTaskStatusDto = createClientTaskStatusDto(AuthHolder.getAuthData().getClientId(), taskId);
+                updateStatus(clientTaskStatusDto);
+            });
             return taskDataList.get(0);
         }
         return null;
@@ -68,12 +73,7 @@ public class TaskService {
 
     @Transactional
     public List<Long> getActiveTasksByClientID(Long clientId) {
-        List<Long> taskIdList = taskDao.getActiveTasksByClientID(clientId);
-        List<ClientTaskStatusDto> clientTaskStatusList = new ArrayList<>();
-        taskIdList.forEach(taskId ->
-                clientTaskStatusList.add(createClientTaskStatusDto(clientId, taskId)));
-        clientTaskStatusList.forEach(this::updateStatus);
-        return taskIdList;
+        return taskDao.getActiveTasksByClientID(clientId);
     }
 
     private ClientTaskStatusDto createClientTaskStatusDto(Long clientId, Long taskId) {
