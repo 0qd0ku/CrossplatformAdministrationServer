@@ -51,6 +51,7 @@ public class ClientApiController extends BaseController {
     }
 
     @PostMapping("/task/status-toggle")
+    @ResponseBody
     public String toggleTaskStatus(@RequestBody ClientTaskStatusDto clientTaskStatusDto) {
         logger.debug("Received request for toggle status: {}", clientTaskStatusDto);
         taskService.updateStatus(clientTaskStatusDto);
