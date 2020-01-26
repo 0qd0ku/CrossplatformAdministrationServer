@@ -5,19 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vkr.dao.TaskDao;
-import ru.vkr.model.ClientData;
 import ru.vkr.model.ClientTaskStatusInfo;
-import ru.vkr.model.TaskClientStatusInfo;
+import ru.vkr.model.TaskData;
+import ru.vkr.model.TasktStatusInfo;
 import ru.vkr.model.dto.ClientTaskStatusDto;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
-import ru.vkr.model.TaskData;
+import ru.vkr.model.enums.TaskStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * Сервис для работы с задачами
- * TODO обработать исключения
- * */
+ */
 @Service
 public class TaskService {
     private TaskDao taskDao;
@@ -62,12 +62,25 @@ public class TaskService {
     }
 
 
-    public List<TaskClientStatusInfo> getTasksForClient(Long id) {
+    public List<TasktStatusInfo> getTasksForClient(Long id) {
         return taskDao.getTasksForClient(id);
     }
 
-    public List<Long> getActiveTasksByClientID(Long id) {
-        return taskDao.getActiveTasksByClientID(id);
+    @Transactional
+    public List<Long> getActiveTasksByClientID(Long clientId) {
+        List<Long> taskIdList = taskDao.getActiveTasksByClientID(clientId);
+        List<ClientTaskStatusDto> clientTaskStatusList = new ArrayList<>();
+        taskIdList.forEach(taskId ->
+                clientTaskStatusList.add(createClientTaskStatusDto(clientId, taskId)));
+        clientTaskStatusList.forEach(this::updateStatus);
+        return taskIdList;
+    }
+
+    private ClientTaskStatusDto createClientTaskStatusDto(Long clientId, Long taskId) {
+        ClientTaskStatusDto clientTaskStatusDto = new ClientTaskStatusDto();
+        clientTaskStatusDto.setTaskStatus(TaskStatus.IN_QUEUE);
+        clientTaskStatusDto.setClientTaskData(new SimpleClientTaskDataDto(clientId, taskId));
+        return clientTaskStatusDto;
     }
 
     @Transactional

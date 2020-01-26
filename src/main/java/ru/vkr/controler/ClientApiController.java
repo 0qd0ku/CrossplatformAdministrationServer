@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.vkr.model.*;
 import ru.vkr.model.dto.ClientTaskStatusDto;
+import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.dto.TaskPackDto;
 import ru.vkr.service.TaskService;
 import ru.vkr.service.AuthorizationService;
@@ -49,11 +50,10 @@ public class ClientApiController extends BaseController {
         return taskService.getTaskById(taskId);
     }
 
-    @PostMapping("/task/status")
-    public void toggleTaskStatus(@RequestBody ClientTaskStatusDto clientTaskStatusDto) {
+    @PostMapping("/task/status-toggle")
+    public String toggleTaskStatus(@RequestBody ClientTaskStatusDto clientTaskStatusDto) {
         logger.debug("Received request for toggle status: {}", clientTaskStatusDto);
         taskService.updateStatus(clientTaskStatusDto);
+        return "Success";
     }
-
-    //TODO нужно сделать апдейт статуса таски после выполнения и на клиенте тоже
 }

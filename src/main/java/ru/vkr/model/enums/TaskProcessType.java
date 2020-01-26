@@ -1,13 +1,13 @@
 package ru.vkr.model.enums;
 
-public enum TaskType {
+public enum TaskProcessType {
     BAT("Bat"),
     POWERSHELL("Powershell"),
     PROGRAM("Program"),
     SH("Sh");
 
     private final String type;
-    TaskType(String type) {
+    TaskProcessType(String type) {
         this.type = type;
     }
 

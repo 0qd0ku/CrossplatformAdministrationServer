@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-
+/**
+ * Класс конфигурация для сервлета, фильтр для обработки входящих запросов
+ */
 @Configuration
 public class ServletConfig implements Filter {
 
@@ -60,7 +62,8 @@ public class ServletConfig implements Filter {
                 }
             }
             if (StringUtils.isBlank(authToken)) {
-                sendResponse((HttpServletResponse) servletResponse, "Session token is null", HttpStatus.UNAUTHORIZED);
+                LOGGER.debug("Session token is null");
+                sendErrorResponse((HttpServletResponse) servletResponse, "Session token is null", HttpStatus.UNAUTHORIZED);
                 return;
             }
         }
@@ -76,24 +79,26 @@ public class ServletConfig implements Filter {
                 case CLIENT:
                     if (sessionData.getExpDate().before(new Date())) {
                         LOGGER.debug("Session by token {} is Expired", authToken);
-                        sendResponse((HttpServletResponse) servletResponse, "Session token is Expired", HttpStatus.UNAUTHORIZED);
+                        sendErrorResponse((HttpServletResponse) servletResponse, "Session token is Expired", HttpStatus.UNAUTHORIZED);
                         return;
                     }
             }
+            LOGGER.debug("Request by authorization session: {}", sessionData);
         } else {
             // сессия не найдена, значит возвращаем ошибку авторизации
             LOGGER.debug("Session by token {} is not found", authToken);
-            sendResponse((HttpServletResponse) servletResponse, "Session not found. Auth token is invalid", HttpStatus.UNAUTHORIZED);
+            sendErrorResponse((HttpServletResponse) servletResponse, "Session not found. Auth token is invalid", HttpStatus.UNAUTHORIZED);
             return;
         }
         filterChain.doFilter(request, servletResponse);
     }
 
-    private void sendResponse(HttpServletResponse response,
-                              String message,
-                              HttpStatus httpStatus) throws IOException {
+    private void sendErrorResponse(HttpServletResponse response,
+                                   String message,
+                                   HttpStatus httpStatus) throws IOException {
         response.setContentType(CONTENT_TYPE);
         response.setStatus(httpStatus.value());
+        LOGGER.error("Send error response with status: {} and message: {}", httpStatus, message);
         objectMapper.writeValue(response.getOutputStream(), message);
     }
 }

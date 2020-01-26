@@ -2,6 +2,9 @@ package ru.vkr.model;
 
 import ru.vkr.model.enums.TaskStatus;
 
+/**
+ * Класс информации по клиенту и статусу выполненой задаче
+ */
 public class ClientTaskStatusInfo {
     private ClientData clientData;
     private TaskStatus taskStatus;

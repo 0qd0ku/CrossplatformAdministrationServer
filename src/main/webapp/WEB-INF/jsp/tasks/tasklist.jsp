@@ -25,7 +25,7 @@
                     <tr>
                         <td style="border: 1px solid black;">${task.id}</td>
                         <td style="border: 1px solid black;">${task.name}</td>
-                        <td style="border: 1px solid black;">${task.taskType.value}</td>
+                        <td style="border: 1px solid black;">${task.taskProcessType.value}</td>
                         <td style="border: 1px solid black;">${task.version}</td>
                         <td style="border: 1px solid black;">${task.os.value}</td>
                         <td style="border: 1px solid black;">${task.osType.value}</td>

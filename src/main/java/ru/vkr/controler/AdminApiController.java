@@ -137,7 +137,7 @@ public class AdminApiController {
     @GetMapping("/client-tasks")
     public ModelAndView adminClientTasks(@RequestParam("clientId") Long id) {
         ModelAndView modelAndView = new ModelAndView("clients/clienttasks");
-        List<TaskClientStatusInfo> taskDataList = taskService.getTasksForClient(id);
+        List<TasktStatusInfo> taskDataList = taskService.getTasksForClient(id);
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         modelAndView.addObject("clientId", id);

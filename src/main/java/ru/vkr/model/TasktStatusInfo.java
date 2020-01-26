@@ -2,7 +2,10 @@ package ru.vkr.model;
 
 import ru.vkr.model.enums.TaskStatus;
 
-public class TaskClientStatusInfo {
+/**
+ * Класс оболочка задача и статус задачи
+ */
+public class TasktStatusInfo {
     private TaskData taskData;
     private TaskStatus status;
 
@@ -10,7 +13,7 @@ public class TaskClientStatusInfo {
         return taskData;
     }
 
-    public TaskClientStatusInfo setTaskData(TaskData taskData) {
+    public TasktStatusInfo setTaskData(TaskData taskData) {
         this.taskData = taskData;
         return this;
     }
@@ -19,7 +22,7 @@ public class TaskClientStatusInfo {
         return status;
     }
 
-    public TaskClientStatusInfo setStatus(TaskStatus status) {
+    public TasktStatusInfo setStatus(TaskStatus status) {
         this.status = status;
         return this;
     }

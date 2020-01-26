@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import ru.vkr.dao.mapper.ClientTaskStatusInfoRowMapper;
 import ru.vkr.dao.mapper.TaskClientStatusInfoRowMapper;
 import ru.vkr.model.ClientTaskStatusInfo;
-import ru.vkr.model.TaskClientStatusInfo;
+import ru.vkr.model.TasktStatusInfo;
 import ru.vkr.model.dto.ClientTaskStatusDto;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.model.TaskData;
@@ -42,11 +42,11 @@ public class TaskDao extends AbstractDao {
     private static final String GET_ACTIVE_CLIENT_TASK_FOR_RUN = "SELECT t.id  FROM tasks t " +
             "JOIN clienttasks c " +
             "ON  c.taskId = t.id " +
-            "WHERE c.clientId = :id AND c.status = 'In queue'";
+            "WHERE c.clientId = :id AND c.status = 'Preparing'";
     private static final String GET_TASK_BY_ID = "SELECT t.*  FROM tasks t " +
             "JOIN clienttasks c ON  c.taskId = t.id " +
             "JOIN clients b ON b.id = clientId " +
-            "WHERE c.taskId = :taskId AND c.status = 'In queue'";
+            "WHERE c.taskId = :taskId AND c.status = 'Preparing'";
 
     private static final ClientTaskStatusInfoRowMapper clientDataListRowMapper = new ClientTaskStatusInfoRowMapper();
     private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
@@ -64,7 +64,7 @@ public class TaskDao extends AbstractDao {
     public int addTask(TaskData task) {
         MapSqlParameterSource mapSource =  new MapSqlParameterSource()
                 .addValue("name", task.getName())
-                .addValue("taskType", task.getTaskType().name())
+                .addValue("taskType", task.getTaskProcessType().name())
                 .addValue("version", task.getVersion())
                 .addValue("os", task.getOs().name())
                 .addValue("osType", task.getOsType().name())
@@ -95,7 +95,7 @@ public class TaskDao extends AbstractDao {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", task.getId())
                 .addValue("name", task.getName())
-                .addValue("taskType", task.getTaskType().name())
+                .addValue("taskType", task.getTaskProcessType().name())
                 .addValue("version", task.getVersion())
                 .addValue("os", task.getOs().name())
                 .addValue("osType", task.getOsType().name())
@@ -104,7 +104,7 @@ public class TaskDao extends AbstractDao {
         return parameterJdbcTemplate.update(UPDATE_TASK, mapSource);
     }
 
-    public List<TaskClientStatusInfo> getTasksForClient(Long id) {
+    public List<TasktStatusInfo> getTasksForClient(Long id) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return parameterJdbcTemplate.query(GET_CLIENT_TASKS_FOR_EDIT, mapSource, taskDataDtoRowMapper);
@@ -141,11 +141,12 @@ public class TaskDao extends AbstractDao {
                 .addValue("taskId", taskId);
         return parameterJdbcTemplate.query(GET_TASK_BY_ID, mapSource, taskDataListRowMapper);
     }
+
     public void updateStatus(ClientTaskStatusDto clientTaskStatusDto) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("taskId", clientTaskStatusDto.getClientTaskData().getTaskId())
                 .addValue("clientId", clientTaskStatusDto.getClientTaskData().getClientId())
-                .addValue("status", clientTaskStatusDto.getTaskStatus().getValue());
+                .addValue("status", clientTaskStatusDto.getTaskStatus().getStatus());
         parameterJdbcTemplate.update(UPDATE_TASK_STATUS, mapSource);
     }
 }

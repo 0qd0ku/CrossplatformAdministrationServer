@@ -35,6 +35,13 @@ public class AuthorizationDao extends AbstractDao {
             "dttm_exp = :dttm_exp " +
             "WHERE token = :token";
 
+    private static final String DELETE_OLD_SESSIONS = "DELETE FROM sessions " +
+            "WHERE dttm_exp < :dttm_exp " +
+            "AND sessionType = 'CLIENT' " +
+            "clientId  in (SELECT clientId FROM " +
+            "(SELECT clientId, COUNT(*) FROM sessions " +
+            "WHERE status = 'In queue' HAVING COUNT(*) = 0";
+
     private static final RowMapper<Long> ADMIN_LOGIN_COUNT = JdbcTemplateMapperFactory.newInstance()
             .newRowMapper(Long.class);
     private static final RowMapper<SessionData> SESSION_MAPPER = JdbcTemplateMapperFactory.newInstance()
@@ -45,7 +52,7 @@ public class AuthorizationDao extends AbstractDao {
             .ignorePropertyNotFound().newRowMapper(SessionData.class);
 
 
-    /**dttp_exp
+    /**
      * Метод лезет в базу и ищет там пользователя с таким логин/паролем
      * @param adminAuthorizationData данные для авторизации
      * @return логин пользователя есть с такимии данными авторизации он  был найден в базе
@@ -94,5 +101,12 @@ public class AuthorizationDao extends AbstractDao {
         cal.setTime(new Date());
         cal.add(Calendar.HOUR, TOKEN_UPDATE_EXP_HOUR);
         return cal.getTime();
+    }
+
+    public void removeOldSessions() {
+        logger.debug("Remove old sessions");
+        MapSqlParameterSource mapSource = new MapSqlParameterSource()
+                .addValue("dttm_exp", new Date());
+        parameterJdbcTemplate.update(DELETE_OLD_SESSIONS, mapSource);
     }
 }

@@ -17,11 +17,16 @@ import ru.vkr.util.TokenGenerator;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Сервис для выполнения авторизации
+ */
 @Service
 public class AuthorizationService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthorizationService.class);
 
+    @Autowired
+    private AuthorizationService authorizationService;
     private final AuthorizationDao authorizationDao;
     private final ClientService clientService;
 
@@ -46,7 +51,7 @@ public class AuthorizationService {
             return sessionData;
         }
         SessionData sessionData = sessionDataList.get(0);
-        updateSessionData(sessionData.getToken());
+        authorizationService.updateSessionData(sessionData.getToken());
         return sessionData;
     }
     /*
@@ -57,24 +62,40 @@ public class AuthorizationService {
     public SessionData clientCheckIn(ClientData authData) {
         logger.debug("Start authorization by client: {}", authData);
         List<ClientData> clientDataList = clientService.getClient(authData.getHostname());
+        checkFoundClient(clientDataList, authData);
+        ClientData client = clientDataList.get(0);
+        checkClientBlocked(client);
+        List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(client.getId());
+        SessionData sessionData = checkSessionData(sessionDataList, client);
+        logger.debug("Return auth session: {}", sessionData);
+        return sessionData;
+    }
+
+    private void checkFoundClient(List<ClientData> clientDataList, ClientData authData) {
         if (CollectionUtils.isEmpty(clientDataList)) {
             clientService.addClient(authData);
+            logger.error("Client not found by data: {}", authData);
             throw new ClientAuthorizationException(HttpStatus.UNAUTHORIZED, "Client tasks can't start work," +
                     " because he is unathorized");
         }
-        ClientData client = clientDataList.get(0);
+    }
+
+    private void checkClientBlocked(ClientData client) {
         if (client.getBlocked()) {
-            throw new ClientAuthorizationException(HttpStatus.NOT_FOUND, "Client tasks can't start work," +
+            logger.error("Blocked process for client: {}", client);
+            throw new ClientAuthorizationException(HttpStatus.FORBIDDEN, "Client tasks can't start work," +
                     " because he is blocked");
         }
-        List<SessionData> sessionDataList = authorizationDao.loadSessionDataByLoginId(client.getId());
+    }
+
+    private SessionData checkSessionData(List<SessionData> sessionDataList, ClientData client) {
         SessionData sessionData;
         if (CollectionUtils.isNotEmpty(sessionDataList)) {
             sessionData = sessionDataList.get(0);
-            updateSessionData(sessionData.getToken());
+            authorizationService.updateSessionData(sessionData.getToken());
         } else {
-           sessionData =  createSessionData(client.getId(), SessionData.SessionType.CLIENT);
-           authorizationDao.addSessionData(sessionData);
+            sessionData =  createSessionData(client.getId(), SessionData.SessionType.CLIENT);
+            authorizationDao.addSessionData(sessionData);
         }
         return sessionData;
     }
@@ -88,11 +109,17 @@ public class AuthorizationService {
         return sessionData;
     }
 
+    @Transactional
     public void updateSessionData(String token) {
         authorizationDao.updateSessionData(token);
     }
 
     public List<SessionData> loadSessionDataByToken(String token) {
         return authorizationDao.loadSessionDataByToken(token);
+    }
+
+    @Transactional
+    public void removeOldSessions() {
+        authorizationDao.removeOldSessions();
     }
 }

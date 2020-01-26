@@ -11,10 +11,9 @@ import ru.vkr.model.enums.OSType;
 
 import java.util.List;
 
-/*
+/**
  * Сервис для работы с задачами
- * TODO обработать исключения
- * */
+ */
 
 @Service
 public class ClientService {

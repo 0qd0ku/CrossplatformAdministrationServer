@@ -2,24 +2,24 @@ package ru.vkr.model;
 
 import ru.vkr.model.enums.OS;
 import ru.vkr.model.enums.OSType;
-import ru.vkr.model.enums.TaskType;
+import ru.vkr.model.enums.TaskProcessType;
 
 import java.util.Objects;
 
 public class TaskData {
     private Long id;
     private String name;
-    private TaskType taskType;
+    private TaskProcessType taskProcessType;
     private String version;
     private OS os;
     private OSType osType;
     private String pathToRunFile;
     private String torrentFile;
 
-    public TaskData(Long id, String name, TaskType taskType, String version, OS os, OSType osType, String pathToRunFile, String torrentFile) {
+    public TaskData(Long id, String name, TaskProcessType taskProcessType, String version, OS os, OSType osType, String pathToRunFile, String torrentFile) {
         this.id = id;
         this.name = name;
-        this.taskType = taskType;
+        this.taskProcessType = taskProcessType;
         this.version = version;
         this.os = os;
         this.osType = osType;
@@ -46,12 +46,12 @@ public class TaskData {
         this.name = name;
     }
 
-    public TaskType getTaskType() {
-        return taskType;
+    public TaskProcessType getTaskProcessType() {
+        return taskProcessType;
     }
 
-    public void setTaskType(TaskType taskType) {
-        this.taskType = taskType;
+    public void setTaskProcessType(TaskProcessType taskProcessType) {
+        this.taskProcessType = taskProcessType;
     }
 
     public String getVersion() {
@@ -101,7 +101,7 @@ public class TaskData {
         TaskData that = (TaskData) o;
         return id.equals(that.id) &&
                 getName().equals(that.getName()) &&
-                getTaskType() == that.getTaskType() &&
+                getTaskProcessType() == that.getTaskProcessType() &&
                 getVersion().equals(that.getVersion()) &&
                 getOs().getValue() == that.getOs().getValue() &&
                 getOsType().getValue() == that.getOsType().getValue() &&
@@ -111,7 +111,7 @@ public class TaskData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, getName(), getTaskType(), getVersion(), getOs().getValue(), getOsType().getValue(), getPathToRunFile(), getTorrentFile());
+        return Objects.hash(id, getName(), getTaskProcessType(), getVersion(), getOs().getValue(), getOsType().getValue(), getPathToRunFile(), getTorrentFile());
     }
 
     @Override
@@ -119,7 +119,7 @@ public class TaskData {
         return "TaskDataDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", taskType=" + taskType +
+                ", taskType=" + taskProcessType +
                 ", version='" + version + '\'' +
                 ", os=" + os.getValue() +
                 ", osType=" + osType.getValue() +

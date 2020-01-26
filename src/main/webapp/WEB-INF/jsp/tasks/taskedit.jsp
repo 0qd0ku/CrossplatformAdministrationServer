@@ -21,8 +21,8 @@
                         <td style="border: 1px solid black;"><form:label path="name">Имя:</form:label></td>
                         <td style="border: 1px solid black;"><form:input id="name" path="name"/></td>
                     </tr><tr>
-                    <td style="border: 1px solid black;"><form:label path="taskType">Тип:</form:label></td>
-                    <td style="border: 1px solid black;"><form:select path="taskType">
+                    <td style="border: 1px solid black;"><form:label path="taskProcessType">Тип:</form:label></td>
+                    <td style="border: 1px solid black;"><form:select path="taskProcessType">
                         <form:option value="BAT">Bat</form:option>
                         <form:option value="POWERSHELL">Powershell</form:option>
                         <form:option value="PROGRAM">Program</form:option>

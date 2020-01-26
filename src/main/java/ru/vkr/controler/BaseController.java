@@ -15,7 +15,7 @@ public class BaseController {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @ExceptionHandler(ClientAuthorizationException.class)
-    public void illegalAction(HttpServletResponse response, ClientAuthorizationException ex) throws IOException {
+    public void illegalClientAuthAction(HttpServletResponse response, ClientAuthorizationException ex) throws IOException {
         LOGER.error("Service handle exception", ex);
         response.setStatus(ex.getStatusCode().value());
         OBJECT_MAPPER.writeValue(response.getOutputStream(), ex.getMessage());

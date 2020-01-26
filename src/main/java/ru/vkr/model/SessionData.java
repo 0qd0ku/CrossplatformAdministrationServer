@@ -2,6 +2,9 @@ package ru.vkr.model;
 
 import java.util.Date;
 
+/**
+ * Класс сессии клиентов
+ */
 public class SessionData {
     public enum SessionType {
         ADMIN(1, "admin"), CLIENT(2, "client");

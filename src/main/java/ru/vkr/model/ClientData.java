@@ -15,7 +15,7 @@ public class ClientData {
     private OS os;
     private OSType osType;
     private String macAddr;
-    private Boolean blocked;
+    private boolean blocked;
 
     public ClientData() {
         this.blocked = true;
@@ -66,11 +66,11 @@ public class ClientData {
         return this;
     }
 
-    public Boolean getBlocked() {
+    public boolean getBlocked() {
         return blocked;
     }
 
-    public ClientData setBlocked(Boolean blocked) {
+    public ClientData setBlocked(boolean blocked) {
         this.blocked = blocked;
         return this;
     }
