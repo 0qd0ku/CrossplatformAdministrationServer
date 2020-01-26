@@ -1,5 +1,8 @@
 package ru.vkr.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Date;
 
 /**
@@ -17,6 +20,7 @@ public class SessionData {
             this.description = description;
         }
 
+        @JsonValue
         public int getCode() {
             return code;
         }
@@ -25,6 +29,7 @@ public class SessionData {
             return description;
         }
 
+        @JsonCreator
         public static SessionType getTypeByCode(int code) {
             for (SessionType type : SessionType.values()) {
                 if (type.code == code) {
