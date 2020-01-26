@@ -46,11 +46,11 @@ public class TaskDao extends AbstractDao {
     private static final String GET_ACTIVE_CLIENT_TASK_FOR_RUN = "SELECT t.id  FROM tasks t " +
             "JOIN clienttasks c " +
             "ON  c.taskId = t.id " +
-            "WHERE c.clientId = :id AND c.status = 'Preparing'";
+            "WHERE c.clientId = :id AND c.status = 'PREPARING'";
     private static final String GET_TASK_BY_ID = "SELECT t.*  FROM tasks t " +
             "JOIN clienttasks c ON  c.taskId = t.id " +
             "JOIN clients b ON b.id = clientId " +
-            "WHERE c.taskId = :taskId AND c.status = 'Preparing'";
+            "WHERE c.taskId = :taskId AND c.status = 'PREPARING'";
 
     private static final ClientTaskStatusInfoRowMapper clientDataListRowMapper = new ClientTaskStatusInfoRowMapper();
     private static final TaskClientStatusInfoRowMapper taskDataDtoRowMapper = new TaskClientStatusInfoRowMapper();
