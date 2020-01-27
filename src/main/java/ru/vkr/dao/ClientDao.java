@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.vkr.model.ClientData;
+import ru.vkr.model.dto.SimpleClientDto;
 import ru.vkr.model.enums.OS;
 import ru.vkr.model.enums.OSType;
 
@@ -23,7 +24,8 @@ public class ClientDao extends AbstractDao{
             "VALUES (:hostName, :os, :osType, :macAddr)";
 
     private static final String DELETE_CLIENT_BY_ID = "DELETE FROM clients WHERE id = :id";
-    private static final String UPDATE_CLIENT_BY_ID = "UPDATE clients SET token = :token, hostname = :hostname, os = :os, osType = :osType, macAddr = :macAddr " +
+    private static final String UPDATE_CLIENT_STATE_BY_ID = "UPDATE clients" +
+            " SET blocked = :blocked " +
             "WHERE id = :id";
     private static final String DELETE_CLIENT_BY_HOSTNAME = "DELETE clients WHERE hostname = ?";
 
@@ -79,14 +81,11 @@ public class ClientDao extends AbstractDao{
         return parameterJdbcTemplate.update(DELETE_CLIENT_BY_HOSTNAME, mapSource);
     }
 
-    public int updateClient(ClientData client) {
+    public int updateClientState(SimpleClientDto client) {
         MapSqlParameterSource mapSource = new MapSqlParameterSource()
                 .addValue("id", client.getId())
-                .addValue("hostname", client.getHostname())
-                .addValue("os", client.getOs().getOs())
-                .addValue("osType", client.getOsType().getOsType())
-                .addValue("macAddr", client.getMacAddr());
-        return parameterJdbcTemplate.update(UPDATE_CLIENT_BY_ID, mapSource);
+                .addValue("blocked", client.getBlocked() ? 1 : 0);
+        return parameterJdbcTemplate.update(UPDATE_CLIENT_STATE_BY_ID, mapSource);
 
     }
 }

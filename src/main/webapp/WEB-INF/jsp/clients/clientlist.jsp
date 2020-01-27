@@ -6,6 +6,7 @@
     <title>Управления задачами</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript"><%@include file="../js/coockieWorker.js"%> </script>
+    <script type="text/javascript"><%@include file="../js/edit-client.js"%> </script>
 </head>
 <body>
 <div>
@@ -29,13 +30,26 @@
                 <td style="border: 1px solid black;">${client.osType.osType}</td>
                 <td style="border: 1px solid black;">${client.macAddr}</td>
                 <td style="border: 1px solid black;">
-                    <input type="checkbox" name="blocked" ${client.blocked ? "checked" : ""} value=${client.blocked}/>
+                    <input type="checkbox" name="${client.id}" id="blocked" class="checkbox" ${client.blocked ? "checked" : ""} value=${client.blocked}/>
                 </td>
+                <td style="border: 1px solid black;"><button onclick="editClientState(${client.id}, checkCheckBox(document.getElementsByClassName('checkbox'), ${client.id}))">Изменить состояние</button></td>
                 <td style="border: 1px solid black;"><spring:form method="POST" action="delete-client"><button name="id" value="${client.id}">Удалить</button></spring:form></td>
                 <td style="border: 1px solid black;"><spring:form method="GET"  action="client-tasks"><button name="clientId" value="${client.id}">Список задач</button></spring:form></td>
                 <td style="border: 1px solid black;"><spring:form method="GET"  action="add-task-to-client-page"><button name="clientId" value="${client.id}">Добавить задачу</button></spring:form></td>
             </tr>
         </c:forEach>
+        <script type="text/javascript">
+            function checkCheckBox(checkBoxes, clientId) {
+                var isChecked = null;
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].name == clientId) {
+                        isChecked = checkBoxes[i].checked === true;
+                        break;
+                    }
+                }
+                return isChecked;
+            }
+        </script>
     </table>
     <table>
         <tr>

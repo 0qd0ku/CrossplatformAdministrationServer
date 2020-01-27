@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.vkr.model.*;
+import ru.vkr.model.dto.SimpleClientDto;
 import ru.vkr.model.dto.SimpleClientTaskDataDto;
 import ru.vkr.service.ClientService;
 import ru.vkr.service.TaskService;
@@ -71,6 +72,12 @@ public class AdminApiController {
         if (!Objects.isNull(taskDataList))
             modelAndView.addObject("tasklist", taskDataList);
         return modelAndView;
+    }
+
+    @PostMapping("/block")
+    @ResponseBody
+    public void blockClient(@RequestBody SimpleClientDto clientData) {
+        clientService.blockClient(clientData);
     }
 
     @GetMapping("/task-clients")

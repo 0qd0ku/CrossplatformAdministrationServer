@@ -2,12 +2,10 @@ package ru.vkr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vkr.dao.ClientDao;
-import ru.vkr.dao.TaskDao;
 import ru.vkr.model.ClientData;
-import ru.vkr.model.TaskData;
-import ru.vkr.model.enums.OS;
-import ru.vkr.model.enums.OSType;
+import ru.vkr.model.dto.SimpleClientDto;
 
 import java.util.List;
 
@@ -36,9 +34,9 @@ public class ClientService {
         return clientDao.getClient(id);
     }
 
-    public ClientData updateClient(ClientData client) {
-        clientDao.updateClient(client);
-        return client;
+    @Transactional
+    public void blockClient(SimpleClientDto client) {
+        clientDao.updateClientState(client);
     }
 
     public List<ClientData> getAllClients()
