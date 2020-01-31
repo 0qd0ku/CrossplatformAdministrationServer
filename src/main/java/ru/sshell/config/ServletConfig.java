@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Класс конфигурация для сервлета, фильтр для обработки входящих запросов
+ * Класс конфигурация для сервлета, фильтр для обработки входящих запросов на сервер
  */
 @Configuration
 public class ServletConfig implements Filter {
